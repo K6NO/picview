@@ -2,6 +2,7 @@ const fs = require('fs');
 const sizeOf = require('image-size');
 const moment = require('moment');
 
+//TODO refactor Picture and Album into classes
 function Picture(src, link, alt, dataLightbox, height, width){
     this.src = src;
     this.link = link;

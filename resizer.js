@@ -1,9 +1,6 @@
-const sharp = require('sharp');
+const sharp = require('sharp'); // Sharp resize documentation: http://sharp.dimens.io/en/stable/api-resize/
 const fs = require('fs');
 const sizeOf = require('image-size');
-
-// Sharp resize documentation: http://sharp.dimens.io/en/stable/api-resize/
-
 
 const dir = 'img/upload/';
 const albumName = 'maszotura';
@@ -23,7 +20,7 @@ function getAlbumCounter(){
  *
  * @param sourceFolder
  * @param targetSizes (thumb, medium)
- * @param album (001_colombia)
+ * @param album
  */
 function resizeImages(sourceFolder, targetSizes, album) {
     fs.readdir(sourceFolder, function (error, images) {

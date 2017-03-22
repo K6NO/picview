@@ -1,89 +1,70 @@
 const url = require('url');
-const querystring = require('querystring');
 const fs = require('fs');
 const renderer = require('./renderer');
 const imagereader = require('./imagereader.js');
-const albumName = 'colombia';
 
 function album (request, response) {
     let urlObject = url.parse(request.url);
-        if(request.method.toLowerCase() === 'get'){
-            let query = urlObject.query;
-            let albumName = query.split('=')[1];
-            console.log(albumName);
-            let albums = imagereader.readAlbums('2017-02-03');
-            let thumbs = imagereader.readThumbnails(albumName);
+    if(request.method.toLowerCase() === 'get'){
+        let query = urlObject.query;
+        let albumName = query.split('=')[1];
+        let albums = imagereader.readAlbums('2017-02-03');
+        let thumbs = imagereader.readThumbnails(albumName);
 
-            response.writeHead(200, {'Content-Type': 'text/html'});
-            renderer.view('header', {}, response);
-            renderer.view('albums_ul', {}, response);
+        response.writeHead(200, {'Content-Type': 'text/html'});
+        renderer.view('header', {}, response);
+        renderer.view('albums_ul', {}, response);
 
-            //TODO consider moving out albumValues
-            for(let album=0; album<albums.length; album++){
-                let albumValues = {};
-                for (let key in albums[album]){
-                    albumValues[key] = albums[album][key];
-                }
-                renderer.view('albums', albumValues, response);
+        for(let album=0; album<albums.length; album++){
+            let albumValues = {};
+            for (let key in albums[album]){
+                albumValues[key] = albums[album][key];
             }
-
-            renderer.view('content_xul', {}, response);
-
-            renderer.view('content_ul', {}, response);
-
-
-            //TODO consider moving out render
-            for (let picture=0; picture<thumbs.length; picture++){
-
-                var values = {};
-                for(let key in thumbs[picture]){
-                    values[key] = thumbs[picture][key];
-                }
-                renderer.view('content', values, response);
-            }
-            renderer.view('content_xul', {}, response);
-            renderer.view('footer', {}, response);
-            response.end();
-        } else {
-            console.error('Error: not supported method (not get)');
+            renderer.view('albums', albumValues, response);
         }
+
+        renderer.view('content_xul', {}, response);
+        renderer.view('content_ul', {}, response);
+
+        for (let picture=0; picture<thumbs.length; picture++){
+
+            var values = {};
+            for(let key in thumbs[picture]){
+                values[key] = thumbs[picture][key];
+            }
+            renderer.view('content', values, response);
+        }
+        renderer.view('content_xul', {}, response);
+        renderer.view('footer', {}, response);
+        response.end();
+    } else {
+        console.error('Error! Method: ' +request.method + ' Only method GET is supported.');
+    }
 }
 
 
 function index (request, response) {
-     if(request.method.toLowerCase() === 'get') {
-            let albums = imagereader.readAlbums('2017-02-03');
+    if(request.method.toLowerCase() === 'get') {
+        let albums = imagereader.readAlbums('2017-02-03');
 
-            response.writeHead(200, {'Content-Type': 'text/html'});
-            renderer.view('header', {}, response);
-            renderer.view('albums_ul', {}, response);
+        response.writeHead(200, {'Content-Type': 'text/html'});
+        renderer.view('header', {}, response);
+        renderer.view('albums_ul', {}, response);
 
-            for(let album=0; album<albums.length; album++){
-                let albumValues = {};
-                for (let key in albums[album]){
-                    albumValues[key] = albums[album][key];
-                }
-                renderer.view('albums', albumValues, response);
+        for(let album=0; album<albums.length; album++){
+            let albumValues = {};
+            for (let key in albums[album]){
+                albumValues[key] = albums[album][key];
             }
-            renderer.view('albums_xul', {}, response);
-            renderer.view('footer', {}, response);
-            response.end();
+            renderer.view('albums', albumValues, response);
         }
+        renderer.view('albums_xul', {}, response);
+        renderer.view('footer', {}, response);
+        response.end();
+    } else {
+        console.error('Error! Method: ' +request.method + ' Only method GET is supported.');
+    }
 }
-
-//function download (request, response) {
-//    let urlObject = url.parse(request.url);
-//        if(request.method.toLowerCase() === 'get') {
-//            let query = urlObject.query;
-//            let size = query.split('=')[2];
-//            let album = query.split('=')[1].split('&')[0];
-//            console.log(album);
-//            let zipFile = fs.createReadStream(`./img/albums/${album}/zip/${album}.zip`);
-//
-//        } else {
-//            console.error('Error, not supported method (not get)');
-//        }
-//}
 
 function zip (request, response) {
     let urlObject = url.parse(request.url);
