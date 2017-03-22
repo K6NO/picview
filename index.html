@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PicView</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/design.css">
+    <link href="../css/lightbox.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="page">
+    <div class="page-header cf">
+        <h2 class="title">PicView</h2>
+    </div>
+    <div class="album-container">
+        <ul class="albums-list" id="albums-list">
+            <li class="album-item">
+                <div class="album-details" id="album-details">
+                    <div class="album-image">
+                        <a href="{{albumLink}}">
+                            <img class="album-cover" src="{{albumCover}}">
+                        </a>
+                        <!--<h3 class="album-date">{{albumDate}}</h3>-->
+                        <h2 class="album-title">{{albumTitle}}</h2>
+                    </div>
+                    <div class="album-download-container">
+                        <span class="album-download-heading">Download album</span>
+                        <a href="{{albumDLmedium}}" class="album-download"><i class="fa fa-download" aria-hidden="true"></i> medium</a>
+                        <a href="{{albumDLfull}}" class="album-download"><i class="fa fa-download" aria-hidden="true"></i> full size</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="content-container">
+        <ul class="pictures-list" id="pictures-list">
+            <li class="picture-item">
+                <div class="picture-details">
+                    <a href="{{link}}" data-lightbox="{{dataLightbox}}" class="picture-link">
+                        <img class="picture-image" src="{{src}}" alt="{{alt}}" height="{{height}}" width="{{width}}">
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="../js/lightbox.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

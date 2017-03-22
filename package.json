@@ -1,0 +1,19 @@
+{
+  "name": "kepnezegeto",
+  "version": "0.0.1",
+  "description": "Simple image view app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "K6NO",
+  "license": "MIT",
+  "dependencies": {
+    "image-size": "^0.5.1",
+    "lightbox2": "^2.9.0",
+    "moment": "^2.18.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.17.2"
+  }
+}
