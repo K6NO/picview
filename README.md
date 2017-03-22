@@ -1,0 +1,3 @@
+# picview
+A simple picture viewer app on barebone nodeJS (without Express).
+Work in progress...
