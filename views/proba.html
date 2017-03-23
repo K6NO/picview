@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PicView</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/design.css">
+    <link href="../css/lightbox.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="page">
+    <div class="page-header cf">
+        <nav class="navbar">
+            <h2 class="title">PicView</h2>
+            <ul class="navbar-list">
+                <li class="navbar-listitem"><i class="fa-step-backward" aria-hidden="true"></i>Back</li>
+                <li class="navbar-listitem"><i class="fa fa-upload" aria-hidden="true"></i>Upload</li>
+                <li class="navbar-listitem"><i class="fa fa-sign-out" aria-hidden="true"></i>Sign out</li>
+            </ul>
+        </nav>
+    </div>
+    <div class="login-container">
+        <!--set background-->
+        <div class="login-form-container">
+            <form method="post" action="#">
+                <label for="login-form-email">Email</label> <input type="email" class="login-form" name="login-form-email" id="login-form-email">
+                <label for="login-form-pass">Password</label> <input type="password" class="login-form" name="login-form-pass" id="login-form-pass">
+                <button type="submit" name="login-form-submit" id="login-form-submit">Sign in</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+    <script src="../js/lightbox.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>

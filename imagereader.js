@@ -19,8 +19,8 @@ function Album(title, date, pictures) {
     this.albumDate = date;
     this.albumLink = `?album=${title}`;
     this.pictures = pictures;
-    this.albumDLmedium = `?album=${title}&size=medium&type=zip`;
-    this.albumDLfull = `?album=${title}&size=full&type=zip`;
+    this.albumDLmedium = `/albums/${title}/medium/${title}_medium.zip`;
+    this.albumDLfull = `/albums/${title}/full/${title}_full.zip`;
 
     let returnAlbumCover = function () {
         let cover = pictures[Math.floor(Math.random() * pictures.length)].src;
@@ -67,7 +67,6 @@ function readThumbnails (albumName) {
             let dataLightbox = albumName;
             let thumbnail = new Picture(src, link, alt, dataLightbox, thumbsDimensions.height, thumbsDimensions.width);
             listOfThumbnails.push(thumbnail);
-            console.log('thumb');
         }
     } // end for in loop
     return listOfThumbnails;
