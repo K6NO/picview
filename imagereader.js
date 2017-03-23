@@ -1,6 +1,8 @@
 const fs = require('fs');
 const sizeOf = require('image-size');
 const moment = require('moment');
+const albumsRootFolder = './img/albums';
+
 
 //TODO refactor Picture and Album into classes
 function Picture(src, link, alt, dataLightbox, height, width){
@@ -12,17 +14,19 @@ function Picture(src, link, alt, dataLightbox, height, width){
     this.dataLightbox = dataLightbox;
 }
 
-function Album(title, date, pictures) {
+function Album(title, date) {
     //TODO implement functions to get and set cover picture (prototype or by transforming this to classes?)
     //TODO when above is done remove pictures so that it doesnt have to be called each time when only album view is loaded
-    this.albumTitle = title.slice(2);
+    this.albumName = title;
     this.albumDate = date;
     this.albumLink = `?album=${title}`;
-    this.pictures = pictures;
+    this.pictures = getAlbumThumbnails(this.albumName);
+    this.albumCover = getAlbumCover(this.albumName);
     this.albumDLmedium = `/albums/${title}/medium/${title}_medium.zip`;
     this.albumDLfull = `/albums/${title}/full/${title}_full.zip`;
 
-    let returnAlbumCover = function () {
+    function getAlbumCover(albumName) {
+        let pictures = getAlbumThumbnails(albumName);
         let cover = pictures[Math.floor(Math.random() * pictures.length)].src;
         let dimension = sizeOf(cover);
         while (dimension.width < dimension.height) {
@@ -30,22 +34,29 @@ function Album(title, date, pictures) {
             dimension = sizeOf(cover);
         }
         return cover;
-    };
-    this.albumCover = returnAlbumCover;
+    }
+
+    function getAlbumThumbnails (albumName) {
+        return readThumbnails(albumName);
+    }
+} // end of album
+
+function getSingleAlbum(albumName){
+    let album = new Album(albumName);
+    return album;
 }
 
 function readAlbums(albumDate){
-    let rootFolder = './img/albums';
 
-    let albums = fs.readdirSync(rootFolder);
+    let albums = fs.readdirSync(albumsRootFolder);
     let albumsList = [];
     for (let key in albums){
         if(albums[key].indexOf('.') === -1) {
             let albumName = albums[key];
-            if (albumDate === 'undefined') albumDate = moment().format('DD-MM-YYYY');
-            let albumImages = readThumbnails(albumName);
+            if (albumDate === 'undefined') albumDate = moment().format('YYYY');
+            //let albumImages = readThumbnails(albumName);
 
-            let album = new Album(albumName, albumDate, albumImages);
+            let album = new Album(albumName, albumDate);
 
             albumsList.push(album);
         }
@@ -96,3 +107,4 @@ function readImages (imgFolder) {
 module.exports.readImages = readImages;
 module.exports.readThumbnails = readThumbnails;
 module.exports.readAlbums = readAlbums;
+module.exports.getSingleAlbum = getSingleAlbum;

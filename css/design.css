@@ -32,12 +32,34 @@ h3 {
     height: 60px;
 }
 
+
+
+.navbar {
+    position: absolute;
+}
 .title {
+    position: relative;
     font-family: Helvetica, sans-serif;
     color: #fff;
+    font-size: 1.4em;
+    font-weight: 700;
     margin: inherit;
     padding-top: 15px;
+    display: inline-flex;
 
+}
+.navbar-list {
+    position: relative;
+    background-color: white;
+    color: white;
+    list-style: none;
+    display: inline-flex;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+}
+
+.album-download {
+    color: #ffffff;
 }
 
 .album-container {
@@ -128,11 +150,12 @@ h3 {
 
 .album-download {
     display: block;
+    align-content: flex-end;
     text-decoration: none;
     color: #000;
     padding-top: .3em;
     padding-bottom: .3em;
-
+    padding-right: 1em;
 }
 
 .album-download:hover {
@@ -142,15 +165,32 @@ h3 {
 
 .content-container {
     width: 95%;
+    max-width: 1150px;
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
-    text-align: center;
     padding-left: 0;
     background-color: lightgrey;
+}
+
+.content-container-header {
+    display: inline;
+}
+
+.content-ribbon {
+    height: 80px;
+    padding-left: 20px;
+    padding-top: 20px;
+    background-color: #44aaee;
+    color: #fff;
+    font-size: 2em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.content-download-links-div {
     display: flex;
     align-items: center;
-
 }
 
 .pictures-list {

@@ -18,7 +18,7 @@ function login (request, response) {
 
 function index (request, response) {
     if(request.method.toLowerCase() === 'get') {
-        let albums = imagereader.readAlbums('2017-02-03');
+        let albums = imagereader.readAlbums('2017');
         renderer.view('header', {}, response);
         renderer.view('albums_ul', {}, response);
 
@@ -42,22 +42,27 @@ function album (request, response) {
     if(request.method.toLowerCase() === 'get'){
         let query = urlObject.query;
         let albumName = query.split('=')[1];
-        let albums = imagereader.readAlbums('2017-02-03');
-        let thumbs = imagereader.readThumbnails(albumName);
+        let album = imagereader.getSingleAlbum(albumName);
+        let thumbs = album.pictures;
+        let albumValues = {}
+        for (let key in album){
+            albumValues[key] = album[key];
+        }
+        console.log(albumValues);
 
         renderer.view('header', {}, response);
-        renderer.view('albums_ul', {}, response);
-
-        for(let album=0; album<albums.length; album++){
-            let albumValues = {};
-            for (let key in albums[album]){
-                albumValues[key] = albums[album][key];
-            }
-            renderer.view('albums', albumValues, response);
-        }
-
-        renderer.view('content_xul', {}, response);
-        renderer.view('content_ul', {}, response);
+        //renderer.view('albums_ul', {}, response);
+        //
+        //for(let album=0; album<albums.length; album++){
+        //    let albumValues = {};
+        //    for (let key in albums[album]){
+        //        albumValues[key] = albums[album][key];
+        //    }
+        //    renderer.view('albums', albumValues, response);
+        //}
+        //
+        //renderer.view('content_xul', {}, response);
+        renderer.view('content_ul', albumValues, response);
 
         for (let picture=0; picture<thumbs.length; picture++){
 
