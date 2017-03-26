@@ -1,8 +1,9 @@
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
+
 const renderer = require('./renderer');
-const imagereader = require('./imagereader.js');
+const imagereader = require('./albumservice.js');
 
 function login (request, response) {
     if(request.method.toLowerCase() === 'get') {
@@ -44,7 +45,7 @@ function album (request, response) {
         let albumName = query.split('=')[1];
         let album = imagereader.getSingleAlbum(albumName);
         let thumbs = album.pictures;
-        let albumValues = {}
+        let albumValues = {};
         for (let key in album){
             albumValues[key] = album[key];
         }

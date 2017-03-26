@@ -61,7 +61,7 @@ http.createServer(function (request, response) {
         // new wireframes (on paper)
             // login (simple page, clicking through
             // displaying albums (current structure / move links down, make image shorter)
-            // displaying thumbnails - add back button, show only album cover with long (ribbon) header picture and title
+            // displaying getThumbnails - add back button, show only album cover with long (ribbon) header picture and title
             // upload  button
             // upload page (routing, rendering)
         // html structure: upload button, page-flow(login-albums-album / upload, back buttons
