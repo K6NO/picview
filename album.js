@@ -46,7 +46,7 @@ class Album {
         this.albumName = albumName;
         this.albumDate = albumDate;
         this.pictures = this.getThumbnails();
-        this.getAlbumCover = this.getAlbumCover();
+        this.albumCover = this.getAlbumCover();
         this.albumLink = `?album=${albumName}`;
         this.albumDLmedium = `/albums/${albumName}/medium/${albumName}_medium.zip`;
         this.albumDLfull = `/albums/${albumName}/full/${albumName}_full.zip`;
