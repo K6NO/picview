@@ -21,7 +21,7 @@ var mime = {
 http.createServer(function (request, response) {
     // set Content-Type for all
     var reqpath = request.url.toString().toLowerCase().split('?')[0];
-    var type = mime[path.extname(reqpath).slice(1)] || 'text/plain';
+    var type = mime[path.extname(reqpath).slice(1)] || 'text/html';
     response.setHeader('Content-Type', type);
 
     //implement routing by file type
@@ -39,16 +39,16 @@ http.createServer(function (request, response) {
     }
 
     else {
-        if (request.url.indexOf('index.html?album') !== -1) {
+        if (request.url.indexOf('index?album') !== -1) {
             router.album(request, response);
         }
-        else if (request.url === '/login.html'){
+        else if (request.url === '/login'){
             router.login(request, response);
         }
-        else if (request.url === '/upload.html'){
+        else if (request.url === '/upload'){
             router.upload(request, response);
         }
-        else if(request.url === '/index.html') {
+        else if(request.url === '/index') {
             router.index(request, response);
         }
 

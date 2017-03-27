@@ -10,7 +10,6 @@ function getAlbumCounter(){
     let counter = 0;
     for(let i= 0; i<albums.length; i++){
         if(albums[i].indexOf('.') === -1) {
-            console.log(albums[i]);
             counter += 1;
         }
     }
@@ -23,6 +22,9 @@ function getAlbumCounter(){
  * @param album
  */
 function resizeImages(sourceFolder, targetSizes, album) {
+    console.log('called resizer');
+    console.log(sourceFolder);
+
     fs.readdir(sourceFolder, function (error, images) {
         if (!error) {
             // count the number of albums, get new id (for folder naming)
@@ -91,4 +93,4 @@ function resizeImages(sourceFolder, targetSizes, album) {
     }); // end readdir
 }
 
-resizeImages(dir, ['thumb', 'medium'], albumName);
+module.exports.resizeImages = resizeImages;

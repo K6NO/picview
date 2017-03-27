@@ -1,6 +1,10 @@
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
+const formidable = require('formidable');
+const util = require('util');
+const resizer = require('./resizer.js');
+const log = require('./logger.js');
 
 const renderer = require('./renderer');
 const albumService = require('./albumservice.js');
@@ -73,14 +77,95 @@ function album (request, response) {
 function upload (request, response) {
     // if get - display elements
     // if post - receive pictures, save, send back OK message - render OK message (jQuery)
-    if(request.method.toLowerCase() === 'get') {
+    if (request.method.toLowerCase() == 'post') {
+
+        // new code
+        // parse a file upload
+        var form = new formidable.IncomingForm();
+        form.multiples = true;
+        let fields = [];
+        let files = [];
+
+        form.on('field', function(field, value) {
+            //console.log(field, value);
+
+            fields.push([field, value]);
+        })
+            .on('file', function (field, file) {
+                //console.log([field, file]);
+                let fileName = file.name;
+                let fileSize = file.size;
+                let filePath = file.path;
+
+                // the file is written to a temp folder, rename it to move into upload
+                fs.rename(filePath, __dirname + '/img/upload/' + fileName, function (err) {
+                    if (err) console.error(err);
+
+                    let jsonFile = fs.readFileSync('./img/upload/storedFilesList.json', 'utf-8');
+                    let jsonObject = JSON.parse(jsonFile);
+
+                    log.upload(fileName, fileSize);
+                    //jsonObject.storedFiles[fileName] = {
+                    //    size:fileSize,
+                    //    expDate:'-',
+                    //    path:'/upload/' + fileName
+                    //};
+                    //let jsonString = JSON.stringify(jsonObject, null, 4);
+                    //
+                    //
+                    //fs.writeFile('./img/upload/storedFilesList.json', jsonString, function(err){
+                    //    if (err) throw err;
+                    //});
+                });
+
+                //fs.writeFile(__dirname + '/img/upload/' + fileName, 'binary', file, function (err) {
+                //    if (err) throw err;
+                //
+                //    let jsonFile = fs.readFileSync('./img/upload/storedFilesList.json', 'utf-8');
+                //    let jsonObject = JSON.parse(jsonFile);
+                //
+                //    jsonObject.storedFiles[fileName] = {
+                //        size:fileSize,
+                //        expDate:'-',
+                //        path:'/upload/' + fileName
+                //    };
+                //    let jsonString = JSON.stringify(jsonObject, null, 4);
+                //
+                //
+                //    fs.writeFile('./img/upload/storedFilesList.json', jsonString, function(err){
+                //        if (err) throw err;
+                //    });
+                //});
+                files.push([field, file]);
+
+            })
+            .on('end', function () {
+                console.log('Upload done, yaaaay');
+                let albumName = fields.albumName;
+                console.log(albumName);
+                //let albumDate = fields.albumDate;
+                //resizer.resizeImages('img/upload/', ['thumb', 'medium'], albumName);
+
+                // require converter
+                // perform conversion
+                // add filenames+data to some files[]
+                // in callback to rendering
+
+                renderer.view('header', {}, response);
+                renderer.view('uploaded', {}, response);
+                renderer.view('footer', {}, response);
+                response.end();
+        });
+        form.parse(request);
+
+
+    } else if (request.method.toLowerCase() === 'get') {
         renderer.view('header', {}, response);
         renderer.view('upload', {}, response);
         renderer.view('footer', {}, response);
         response.end();
     } else {
-        // implement POST
-        console.error('Error! Method: ' +request.method + ' Only method GET is supported.');
+        console.log('not allowed method');
     }
 }
 
