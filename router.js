@@ -49,7 +49,6 @@ function album (request, response) {
         for (let key in album){
             albumValues[key] = album[key];
         }
-        console.log(albumValues);
 
         renderer.view('header', {}, response);
         renderer.view('content_ul', albumValues, response);
