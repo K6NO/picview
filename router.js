@@ -53,7 +53,6 @@ function album (request, response) {
         for (let key in album){
             albumValues[key] = album[key];
         }
-        console.log(albumValues);
 
         renderer.view('header', {}, response);
         renderer.view('content_ul', albumValues, response);
@@ -87,69 +86,33 @@ function upload (request, response) {
         let files = [];
 
         form.on('field', function(field, value) {
-            //console.log(field, value);
 
-            fields.push([field, value]);
+            fields.push({[field] : value});
         })
-            .on('file', function (field, file) {
-                //console.log([field, file]);
+            .on('file', function (field, file, err) {
                 let fileName = file.name;
                 let fileSize = file.size;
                 let filePath = file.path;
 
-                // the file is written to a temp folder, rename it to move into upload
+                // the file is written to a temp folder, rename it to move into upload folder
                 fs.rename(filePath, __dirname + '/img/upload/' + fileName, function (err) {
                     if (err) console.error(err);
 
-                    let jsonFile = fs.readFileSync('./img/upload/storedFilesList.json', 'utf-8');
-                    let jsonObject = JSON.parse(jsonFile);
-
+                    //logs uploaded file info into storedFilesJson
                     log.upload(fileName, fileSize);
-                    //jsonObject.storedFiles[fileName] = {
-                    //    size:fileSize,
-                    //    expDate:'-',
-                    //    path:'/upload/' + fileName
-                    //};
-                    //let jsonString = JSON.stringify(jsonObject, null, 4);
-                    //
-                    //
-                    //fs.writeFile('./img/upload/storedFilesList.json', jsonString, function(err){
-                    //    if (err) throw err;
-                    //});
+
                 });
 
-                //fs.writeFile(__dirname + '/img/upload/' + fileName, 'binary', file, function (err) {
-                //    if (err) throw err;
-                //
-                //    let jsonFile = fs.readFileSync('./img/upload/storedFilesList.json', 'utf-8');
-                //    let jsonObject = JSON.parse(jsonFile);
-                //
-                //    jsonObject.storedFiles[fileName] = {
-                //        size:fileSize,
-                //        expDate:'-',
-                //        path:'/upload/' + fileName
-                //    };
-                //    let jsonString = JSON.stringify(jsonObject, null, 4);
-                //
-                //
-                //    fs.writeFile('./img/upload/storedFilesList.json', jsonString, function(err){
-                //        if (err) throw err;
-                //    });
-                //});
-                files.push([field, file]);
+                files.push({[field] : file});
 
             })
             .on('end', function () {
                 console.log('Upload done, yaaaay');
-                let albumName = fields.albumName;
-                console.log(albumName);
-                //let albumDate = fields.albumDate;
+                let albumName = fields[0].albumName;
+                let albumDate = fields[1].albumDate;
+
                 //resizer.resizeImages('img/upload/', ['thumb', 'medium'], albumName);
 
-                // require converter
-                // perform conversion
-                // add filenames+data to some files[]
-                // in callback to rendering
 
                 renderer.view('header', {}, response);
                 renderer.view('uploaded', {}, response);
@@ -157,7 +120,6 @@ function upload (request, response) {
                 response.end();
         });
         form.parse(request);
-
 
     } else if (request.method.toLowerCase() === 'get') {
         renderer.view('header', {}, response);
