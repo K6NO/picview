@@ -1,10 +1,11 @@
 const http = require('http');
 const express = require('express');
-var path = require('path');
+const path = require('path');
 const bodyParser = require('body-parser');
 
 const app = express();
 const router = require('../routes/router.js');
+const albumService = require('./albumservice.js');
 
 //const url = '127.0.0.1';
 //const port = 3000;
@@ -27,7 +28,11 @@ app.set('view engine', 'jade');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
-app.use(express.static(path.join(__dirname + 'public')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+app.use(albumService.getAlbumsList({albumDate : 2017}));
+app.use(albumService.getSingleAlbum({albumName : '1_colombia', albumDate : 2017}));
+
 
 app.use('/', router);
 
@@ -53,7 +58,8 @@ app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
-        status: err.status
+        status: err.status,
+        error : err
     });
 });
 

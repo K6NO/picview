@@ -1,6 +1,9 @@
 extends ./layout.jade
 block content
     h1 There was an error.
+    h1 #{error.message}
+    h2 #{error.text}
+    p #{error.stack}
     a(href='/') Try something else here
     p.
         If you are lucky enough to understand Hungarian:

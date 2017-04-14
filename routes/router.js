@@ -15,11 +15,14 @@ const router = express.Router();
 // need to create pug files
 router.get('/', (req, res, next) => {
     console.log('GET request to /');
-    res.render('index');
+    res.render('index', {
+        singleAlbum : req.singleAlbum,
+        albums : req.albums
+    });
 });
 
 // {userId : XX, albumId: YY} is captured by req.params
-router.get('/users/:userId/albums/:albumId', (req, res, next) => {
+router.get('albums/:albumId', (req, res, next) => {
     res.send(req.params);
 });
 

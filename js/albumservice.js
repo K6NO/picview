@@ -3,30 +3,31 @@ const moment = require('moment');
 const Album = require('./album.js');
 
 //const Picture = require('./picture.js');
-const albumsRootFolder = './img/albums';
+const albumsFolder = 'public/img/albums';
 
 
-function getSingleAlbum(albumName){
-    let album = new Album({albumName: albumName});
-    return album;
-}
-
-function getAlbumsList(albumDate){
-
-    let albums = fs.readdirSync(albumsRootFolder);
-    let albumsList = [];
-    for (let key in albums){
-        if(albums[key].indexOf('.') === -1) {
-            let albumName = albums[key];
-            if (albumDate === 'undefined') albumDate = moment().format('YYYY');
-            //let albumImages = getThumbnails(albumName);
-
-            let album = new Album({albumName: albumName, date: albumDate});
-            albumsList.push(album);
-        }
+module.exports.getSingleAlbum = (config) => {
+    return (req, res, next) => {
+        let album = new Album({albumName: config.albumName});
+        req.singleAlbum = album;
+        next();
     }
-    return albumsList;
-}
+};
 
-module.exports.readAlbums = getAlbumsList;
-module.exports.getSingleAlbum = getSingleAlbum;
+module.exports.getAlbumsList = (config) => {
+    return (req, res, next) => {
+        let albums = fs.readdirSync(albumsFolder);
+        let albumsList = [];
+        for (let key in albums){
+            if(albums[key].indexOf('.') === -1) {
+                let albumName = albums[key];
+                let albumDate = config.albumDate;
+                if (albumDate === 'undefined') albumDate = moment().format('YYYY');
+                let album = new Album({albumName: albumName, date: albumDate});
+                albumsList.push(album);
+            }
+        }
+        req.albums = albumsList;
+        next();
+    }
+}
