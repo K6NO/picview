@@ -1,6 +1,10 @@
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
+const formidable = require('formidable');
+const util = require('util');
+const resizer = require('./resizer.js');
+const log = require('./logger.js');
 
 const renderer = require('./renderer');
 const albumService = require('./albumservice.js');
@@ -72,14 +76,58 @@ function album (request, response) {
 function upload (request, response) {
     // if get - display elements
     // if post - receive pictures, save, send back OK message - render OK message (jQuery)
-    if(request.method.toLowerCase() === 'get') {
+    if (request.method.toLowerCase() == 'post') {
+
+        // new code
+        // parse a file upload
+        var form = new formidable.IncomingForm();
+        form.multiples = true;
+        let fields = [];
+        let files = [];
+
+        form.on('field', function(field, value) {
+
+            fields.push({[field] : value});
+        })
+            .on('file', function (field, file, err) {
+                let fileName = file.name;
+                let fileSize = file.size;
+                let filePath = file.path;
+
+                // the file is written to a temp folder, rename it to move into upload folder
+                fs.rename(filePath, __dirname + '/img/upload/' + fileName, function (err) {
+                    if (err) console.error(err);
+
+                    //logs uploaded file info into storedFilesJson
+                    log.upload(fileName, fileSize);
+
+                });
+
+                files.push({[field] : file});
+
+            })
+            .on('end', function () {
+                console.log('Upload done, yaaaay');
+                let albumName = fields[0].albumName;
+                let albumDate = fields[1].albumDate;
+
+                //resizer.resizeImages('img/upload/', ['thumb', 'medium'], albumName);
+
+
+                renderer.view('header', {}, response);
+                renderer.view('uploaded', {}, response);
+                renderer.view('footer', {}, response);
+                response.end();
+        });
+        form.parse(request);
+
+    } else if (request.method.toLowerCase() === 'get') {
         renderer.view('header', {}, response);
         renderer.view('upload', {}, response);
         renderer.view('footer', {}, response);
         response.end();
     } else {
-        // implement POST
-        console.error('Error! Method: ' +request.method + ' Only method GET is supported.');
+        console.log('not allowed method');
     }
 }
 

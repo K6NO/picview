@@ -9,6 +9,7 @@
   "author": "K6NO",
   "license": "MIT",
   "dependencies": {
+    "formidable": "^1.1.1",
     "image-size": "^0.5.1",
     "lightbox2": "^2.9.0",
     "moment": "^2.18.0"

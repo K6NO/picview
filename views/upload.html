@@ -3,15 +3,12 @@
     <div class="upload-form-container">
         <a href="/index" class="album-download"><i class="fa fa-step-backward" aria-hidden="true"></i> back</a>
 
-        <form method="post" action="#">
-            <section class="upload-form" id="upload-form-section1">Add album title and year</section>
-            <label for="upload-form-album">Album name</label> <input type="text" class="upload-form" name="upload-form-album" id="upload-form-album">
-            <label for="upload-form-date">Album year</label> <input type="text" class="upload-form" name="upload-form-date" id="upload-form-date">
-            <button type="button" name="upload-form-forward" id="upload-form-forward">Add images</button>
-            <section class="upload-form" id="upload-form-section2">Upload images</section>
-            <input type="file" class="upload-form" name="upload-form-file" id="upload-form-file">
-            <button type="submit" name="upload-form-submit" id="upload-form-submit">Upload album</button>
 
+        <form action="/upload" enctype="multipart/form-data" method="post">
+        <input type="text" name="albumName" placeholder="Album title"><br>
+            <input type="text" name="albumDate" placeholder="Album year"><br>
+        <label for="upload">Select files: </label><input type="file" name="upload" id="upload" multiple="multiple"><br>
+        <input type="submit" value="Upload">
         </form>
     </div>
 </div>
