@@ -1,0 +1,7 @@
+.idea/
+node_modules/
+public/img/albums/
+public/img/upload
+js/proba.js
+js/uploader.js
+stringify.js

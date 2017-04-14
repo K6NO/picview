@@ -1,17 +1,62 @@
-console.log('UP and running!');
+const http = require('http');
+const express = require('express');
+var path = require('path');
+const bodyParser = require('body-parser');
 
-//Login page
-    // set background picture
-    // hide logout, back and upload nav elements
-    // set focus on email field
-    // implement form validation (email, password)
-    // design form elements
+const app = express();
+const router = require('../routes/router.js');
 
-// Upload form
-    // validate album name (check for duplicates, length)
-    // validate album year (4 chars, numbers, starts with 19 || 2
-    // check if at least one picture has been uploaded
+//const url = '127.0.0.1';
+//const port = 3000;
 
+//var mime = {
+//    html: 'text/html',
+//    txt: 'text/plain',
+//    css: 'text/css',
+//    gif: 'image/gif',
+//    jpg: 'image/jpeg',
+//    png: 'image/png',
+//    svg: 'image/svg+xml',
+//    ico: 'image/x-icon',
+//    js: 'application/javascript',
+//    zip: 'application/zip'
+//};
 
-// Albums page
-    // hide back button
+app.set('views', path.join(__dirname + 'views'));
+//app.set('view engine', 'pug');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended : false}));
+app.use(express.static(path.join(__dirname + 'public')));
+
+app.use('/', router);
+
+// Error handlers
+// 404
+app.use((req, res, next) => {
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+// development error handler / will print stacktrace
+if (app.get('env') === 'development') {
+    app.use((err, req, res, next) => {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+}
+// production error handler
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        status: err.status
+    });
+});
+
+app.listen(3000, function(){
+    console.log('Express server is running on port 3000');
+});
