@@ -25,11 +25,11 @@ router.get('/users/:userId/albums/:albumId', (req, res, next) => {
 
 
 router.get('/login', (req, res, next) => {
-    res.send('LOGIN');
+    res.render('login');
 });
 
 router.get('/upload', (req, res, next) => {
-    res.send('UPLOAD');
+    res.render('upload');
 });
 
 module.exports = router;

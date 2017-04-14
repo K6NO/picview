@@ -1,0 +1,40 @@
+extends ./layout.jade
+
+block content
+    .album-container
+        ul#albums-list.albums-list
+            li.album-item
+                #album-details.album-details
+                    .album-image
+                        a(href='{{albumLink}}')
+                            img.album-cover(src='{{albumCover}}')
+                        // <h3 class="album-date">{{albumDate}}</h3>
+                        h2.album-title {{albumName}}
+                    .album-download-container
+                        span.album-download-heading Download album
+                        a.album-download(href='{{albumDLmedium}}')
+                            i.fa.fa-download(aria-hidden='true')
+                            |  medium
+                        a.album-download(href='{{albumDLfull}}')
+                            i.fa.fa-download(aria-hidden='true')
+                            |  full size
+    .content-container
+        .content-container-header
+            .content-ribbon
+                span.content-ribbon-image-text {{albumName}}
+            .content-download-links-div
+                a.album-download(href='{{albumDLmedium}}')
+                    i.fa.fa-download(aria-hidden='true')
+                    |  medium
+                a.album-download(href='{{albumDLfull}}')
+                    i.fa.fa-download(aria-hidden='true')
+                    |  full size
+                a.album-download(href='/index')
+                    i.fa.fa-step-backward(aria-hidden='true')
+                    |  back
+            .content-list-div
+                ul#pictures-list.pictures-list
+                    li.picture-item
+                        .picture-details
+                            a.picture-link(href='{{link}}', data-lightbox='{{dataLightbox}}')
+                                img.picture-image(src='{{src}}', alt='{{alt}}', height='{{height}}', width='{{width}}')

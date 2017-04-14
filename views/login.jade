@@ -1,0 +1,11 @@
+extends ./layout.jade
+block content
+    .login-container
+        // set background
+        .login-form-container
+            form(method='post', action='#')
+                label(for='login-form-email') Email
+                input#login-form-email.login-form(type='email', name='login-form-email')
+                label(for='login-form-pass') Password
+                input#login-form-pass.login-form(type='password', name='login-form-pass')
+                button#login-form-submit(type='submit', name='login-form-submit') Sign in

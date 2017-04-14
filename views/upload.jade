@@ -1,0 +1,17 @@
+extends ./layout.jade
+block content
+    .upload-container
+        // full page bg image
+        .upload-form-container
+            a.album-download(href='/index')
+                i.fa.fa-step-backward(aria-hidden='true')
+                |  back
+            form(action='/upload', enctype='multipart/form-data', method='post')
+                input(type='text', name='albumName', placeholder='Album title')
+                br
+                input(type='text', name='albumDate', placeholder='Album year')
+                br
+                label(for='upload') Select files:
+                input#upload(type='file', name='upload', multiple='multiple')
+                br
+                input(type='submit', value='Upload')
