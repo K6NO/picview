@@ -1,18 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-//const url = require('url');
-//const fs = require('fs');
-//const path = require('path');
-//const formidable = require('formidable');
-//const util = require('util');
-//const resizer = require('./../js/resizer.js');
-//const log = require('./../js/logger.js');
-
 //const renderer = require('./../js/renderer');
-//const albumService = require('./../js/albumservice.js');
+const albumService = require('./../js/albumservice.js');
 
-// need to create pug files
 router.get('/', (req, res, next) => {
     console.log('GET request to /');
     res.render('index', {
@@ -22,7 +13,7 @@ router.get('/', (req, res, next) => {
 });
 
 // {userId : XX, albumId: YY} is captured by req.params
-router.get('albums/:albumId', (req, res, next) => {
+router.get('/albums/:albumId', (req, res, next) => {
     res.send(req.params);
 });
 

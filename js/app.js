@@ -6,22 +6,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const router = require('../routes/router.js');
 const albumService = require('./albumservice.js');
-
-//const url = '127.0.0.1';
-//const port = 3000;
-
-//var mime = {
-//    html: 'text/html',
-//    txt: 'text/plain',
-//    css: 'text/css',
-//    gif: 'image/gif',
-//    jpg: 'image/jpeg',
-//    png: 'image/png',
-//    svg: 'image/svg+xml',
-//    ico: 'image/x-icon',
-//    js: 'application/javascript',
-//    zip: 'application/zip'
-//};
+const Album = require('./album.js');
 
 app.set('views', path.join(__dirname, '..', 'views'));
 app.set('view engine', 'jade');
@@ -30,11 +15,37 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-app.use(albumService.getAlbumsList({albumDate : 2017}));
-app.use(albumService.getSingleAlbum({albumName : '1_colombia', albumDate : 2017}));
+
+app.get('/', (req, res, next) => {
+    console.log('GET request to /');
+    let albums = albumService.getAlbumsList({});
+    let album = albumService.getSingleAlbum({});
+
+    res.render('index', {
+        singleAlbum : album,
+        albums : albums
+    });
+});
+
+app.get('/:albumId', (req, res, next) => {
+    let album = albumService.getSingleAlbum({albumName : req.params.albumId});
+    let albums = albumService.getAlbumsList({});
+    res.render('album', {
+        singleAlbum : album,
+        albums : albums
+    });
+});
+
+app.get('/login', (req, res, next) => {
+    res.render('login');
+});
+
+app.get('/upload', (req, res, next) => {
+    res.render('upload');
+});
 
 
-app.use('/', router);
+
 
 // Error handlers
 // 404
