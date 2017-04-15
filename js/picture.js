@@ -7,7 +7,7 @@ class Picture{
         this.alt = alt;
         this.height = height;
         this.width = width;
-        this.dataLightbox = dataLightbox;
+        this.albumName = dataLightbox;
     }
 }
 module.exports = Picture;

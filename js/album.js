@@ -16,8 +16,8 @@ class Album {
                 let src = path.join('img', 'albums', this.albumName, 'thumb', thumbs[key]); //`../public/img/albums/${this.albumName}/thumb/${thumbs[key]}`;
                 let link = path.join('img', 'albums', this.albumName, 'medium', 'med_' + thumbs[key].slice(3)); //`../public/img/albums/${this.albumName}/medium/med_${thumbs[key].slice(3)}`;
                 let alt = thumbs[key].slice(0, -4);
-                let dataLightbox = this.albumName;
-                let thumbnail = new Picture(src, link,alt, dataLightbox, thumbsDimensions.height, thumbsDimensions.width);
+                let albumName = this.albumName;
+                let thumbnail = new Picture(src, link,alt, albumName, thumbsDimensions.height, thumbsDimensions.width);
                 listOfThumbnails.push(thumbnail);
             }
         } // end for in loop
@@ -44,8 +44,8 @@ class Album {
         this.pictures = this.getThumbnails();
         this.albumCover = this.getAlbumCover();
         this.albumLink = `${albumName}`;
-        this.albumDLmedium = `/img/albums/${albumName}/medium/zip/${albumName}_medium.zip`;
-        this.albumDLfull = `/img//albums/${albumName}/full/zip/${albumName}_full.zip`;
+        this.albumDLmedium = `/download/${albumName}/medium`;
+        this.albumDLfull = `/download/${albumName}/full`;
     }
 } // end of album
 module.exports = Album;

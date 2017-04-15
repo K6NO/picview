@@ -20,5 +20,5 @@ block content
                     each picture in singleAlbum.pictures
                         li.picture-item
                             .picture-details
-                                a.picture-link(href=picture.link, data-lightbox=picture.dataLightbox)
+                                a.picture-link(href=picture.link, data-lightbox=picture.albumName)
                                     img.picture-image(src=picture.src, alt=picture.alt, height=picture.height, width=picture.width)
