@@ -1,30 +1,30 @@
 const express = require('express');
 const router = express.Router();
 
-//const renderer = require('./../js/renderer');
-const albumService = require('./../js/albumservice.js');
+const albumService = require('../js/albumservice.js');
+
+router.use('/', require('./router_upload.js'));
+router.use('/', require('./router_login.js'));
+router.use('/', require('./router_download.js'));
 
 router.get('/', (req, res, next) => {
+    let albums = albumService.getAlbumsList({});
     console.log('GET request to /');
     res.render('index', {
-        singleAlbum : req.singleAlbum,
-        albums : req.albums
+        albums : albums
     });
 });
 
-// {userId : XX, albumId: YY} is captured by req.params
 router.get('/albums/:albumId', (req, res, next) => {
-    res.send(req.params);
+    let album = albumService.getSingleAlbum({albumName : req.params.albumId});
+    let albums = albumService.getAlbumsList({});
+    console.log(req.params.albumId);
+    res.render('album', {
+        singleAlbum : album,
+        albums : albums
+    });
 });
 
-
-router.get('/login', (req, res, next) => {
-    res.render('login');
-});
-
-router.get('/upload', (req, res, next) => {
-    res.render('upload');
-});
 
 module.exports = router;
 
