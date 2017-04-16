@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const indexRouter = require('../routes/router_index.js');
 
-const albumService = require('./albumservice.js');
+//const albumService = require('./albumservice.js');
 
 app.set('views', path.join(__dirname, '..', 'views'));
 app.set('view engine', 'jade');
@@ -14,7 +14,6 @@ app.set('view engine', 'jade');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(express.static(path.join(__dirname, '..', 'public')));
-
 
 
 app.use('/', indexRouter);

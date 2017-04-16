@@ -2,13 +2,15 @@ const sharp = require('sharp'); // Sharp resize documentation: http://sharp.dime
 const fs = require('fs');
 const sizeOf = require('image-size');
 const dir = 'img/upload/';
+var appRootDir = require('app-root-dir').get();
+var albumsFolder = appRootDir + '/public/img/albums/';
 
 /**
  * Counts the number of folders in album library, returns id for next album
  * @returns {number}
  */
 function getAlbumCounter(){
-    let albums = fs.readdirSync('img/albums');
+    let albums = fs.readdirSync(albumsFolder);
     let counter = 0;
     for(let i= 0; i<albums.length; i++){
         if(albums[i].indexOf('.') === -1) {
@@ -32,10 +34,10 @@ function resizeImages(sourceFolder, targetSizes, album) {
         if (!error) {
             // count the number of albums, get new id (for folder naming)
             let albumCounter = getAlbumCounter();
-            fs.mkdirSync(`./img/albums/${albumCounter}_${album}`);
-            fs.mkdirSync(`./img/albums/${albumCounter}_${album}/large`);
-            fs.mkdirSync(`./img/albums/${albumCounter}_${album}/medium`);
-            fs.mkdirSync(`./img/albums/${albumCounter}_${album}/thumb`);
+            fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}`);
+            fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/large`);
+            fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/medium`);
+            fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/thumb`);
 
             for (let key in images) {
                 //selecting .jpg images, getting dimensions
@@ -51,7 +53,7 @@ function resizeImages(sourceFolder, targetSizes, album) {
                             if (dimensions.width < dimensions.height) {
                                 sharp(sourceFolder + images[key])
                                     .resize(180, 240)
-                                    .toFile(`img/albums/${albumCounter}_${album}/${targetSizes[targetSize]}/th_${images[key]}`, (err, info) =>
+                                    .toFile(`${albumsFolder}${albumCounter}_${album}/${targetSizes[targetSize]}/th_${images[key]}`, (err, info) =>
                                         (err) => console.log(err));
                                 //console.log('Vertical thumbs ' + images[key]);
                             }
@@ -59,7 +61,7 @@ function resizeImages(sourceFolder, targetSizes, album) {
                             else {
                                 sharp(sourceFolder + images[key])
                                     .resize(240, 180)
-                                    .toFile(`img/albums/${albumCounter}_${album}/${targetSizes[targetSize]}/th_${images[key]}`, (err, info) =>
+                                    .toFile(`${albumsFolder}${albumCounter}_${album}/${targetSizes[targetSize]}/th_${images[key]}`, (err, info) =>
                                         (err) => console.log(err));
                             }
                         }
@@ -72,13 +74,13 @@ function resizeImages(sourceFolder, targetSizes, album) {
 
                             sharp(sourceFolder + images[key])
                                 .resize(Math.floor(dimensions.width / divider), Math.floor(dimensions.height / divider))
-                                .toFile(`img/albums/${albumCounter}_${album}/${targetSizes[targetSize]}/med_${images[key]}`, (err, info) =>
+                                .toFile(`${albumsFolder}${albumCounter}_${album}/${targetSizes[targetSize]}/med_${images[key]}`, (err, info) =>
                                     (err) => console.log(err));
                         }
                     }
                     sharp(sourceFolder + images[key])
                         .resize(dimensions.width, dimensions.height)
-                        .toFile(`img/albums/${albumCounter}_${album}/large/${images[key]}`, (err, info) =>
+                        .toFile(`${albumsFolder}${albumCounter}_${album}/large/${images[key]}`, (err, info) =>
                             (err) => console.log(err));
                     //console.log('Large images ' + images[key]);
                 }
