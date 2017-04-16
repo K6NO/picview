@@ -13,8 +13,8 @@ class Album {
         for (let key in thumbs) {
             if (thumbs[key].toLowerCase().indexOf('.jpg') !== -1) {
                 let thumbsDimensions = sizeOf(path.join(sourceFolder, 'thumb', thumbs[key]));
-                let src = path.join('img', 'albums', this.albumName, 'thumb', thumbs[key]); //`../public/img/albums/${this.albumName}/thumb/${thumbs[key]}`;
-                let link = path.join('img', 'albums', this.albumName, 'medium', 'med_' + thumbs[key].slice(3)); //`../public/img/albums/${this.albumName}/medium/med_${thumbs[key].slice(3)}`;
+                let src = path.join('/img', 'albums', this.albumName, 'thumb', thumbs[key]); //`../public/img/albums/${this.albumName}/thumb/${thumbs[key]}`;
+                let link = path.join('/img', 'albums', this.albumName, 'medium', 'med_' + thumbs[key].slice(3)); //`../public/img/albums/${this.albumName}/medium/med_${thumbs[key].slice(3)}`;
                 let alt = thumbs[key].slice(0, -4);
                 let albumName = this.albumName;
                 let thumbnail = new Picture(src, link,alt, albumName, thumbsDimensions.height, thumbsDimensions.width);
@@ -43,7 +43,7 @@ class Album {
         this.albumDate = albumDate;
         this.pictures = this.getThumbnails();
         this.albumCover = this.getAlbumCover();
-        this.albumLink = `${albumName}`;
+        this.albumLink = `albums/${albumName}`;
         this.albumDLmedium = `/download/${albumName}/medium`;
         this.albumDLfull = `/download/${albumName}/full`;
     }
