@@ -4,8 +4,9 @@ const multer = require('multer');
 const app = new express();
 const bodyParser = require('body-parser');
 const path = require('path');
-
+const appRootDir = require('app-root-dir').get();
 const resizer = require('../js/resizer.js');
+const fs = require('fs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
@@ -59,9 +60,24 @@ router.post('/upload', upload.array('image', 100), (req, res, next) => {
 
 
     // RESIZING ...
-    resizer.resizeImages(__dirname + '/..' + '/public' + '/img/upload/', req.body.albumName);
+    resizer.resizeImages(appRootDir + '/public/img/upload/', req.body.albumName);
+    next();
 
+}, (req, res, next) => {
+    // DELETE ...
+    fs.readdir(appRootDir + '/public/img/upload/', (err, files) => {
+        if(!err) {
+            for (let key in files){
+                fs.unlink(appRootDir + '/public/img/upload/' + files[key], (err) => {
+                    if (err) return new Error('Error when attempting to delete upload folder.')
+                })
+            }
+        } else {
+            return new Error('Error when attempting to read upload folder.')
+        }
+    });
     res.send(req.body.albumName);
+
 });
 
 module.exports = router;

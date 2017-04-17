@@ -26,7 +26,7 @@ function getAlbumCounter(){
  * @param targetSizes (thumb, medium)
  * @param album
  */
-function resizeImages(sourceFolder, targetSizes, album) {
+function resizeImages(sourceFolder, album) {
     console.log('called resizer');
     console.log(sourceFolder);
 
