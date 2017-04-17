@@ -7,6 +7,7 @@ const path = require('path');
 const appRootDir = require('app-root-dir').get();
 const resizer = require('../js/resizer.js');
 const fs = require('fs');
+const archiver = require('archiver');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
@@ -55,12 +56,27 @@ var upload = multer({
 });
 
 router.post('/upload', upload.array('image', 100), (req, res, next) => {
-    console.log(req.files);
-    console.log(req.body.albumName);
-
 
     // RESIZING ...
     resizer.resizeImages(appRootDir + '/public/img/upload/', req.body.albumName);
+    next();
+
+}, (req, res, next) => {
+    // ARCHIVER
+    var output = fs.createWriteStream(__dirname + '/' + req.body.albumName + '.zip');
+    var archive = archiver('zip');
+    
+    output.on('close', function () {
+        console.log(archive.pointer() + ' total bytes');
+        console.log('archiver has been finalized and the output file descriptor has closed.');
+    });
+    output.on('error', function (err) {
+        next(err);
+    });
+
+    archive.pipe(output);
+    archive.directory(appRootDir + '/public/img/upload/', req.body.albumName);
+    archive.finalize();
     next();
 
 }, (req, res, next) => {
@@ -76,8 +92,7 @@ router.post('/upload', upload.array('image', 100), (req, res, next) => {
             return new Error('Error when attempting to read upload folder.')
         }
     });
-    res.send(req.body.albumName);
-
+    res.redirect('/');
 });
 
 module.exports = router;
