@@ -38,6 +38,8 @@ function resizeImages(sourceFolder, targetSizes, album) {
             fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/large`);
             fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/medium`);
             fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/thumb`);
+            fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/zip`);
+
 
             for (let key in images) {
                 //selecting .jpg images, getting dimensions
@@ -46,43 +48,34 @@ function resizeImages(sourceFolder, targetSizes, album) {
                     var divider;
 
                     // resizing
-                    for (let targetSize in targetSizes) {
-                        //resizing images to thumbnail size
-                        if (targetSizes[targetSize] === 'thumb') {
-                            // resizing vertical images
-                            if (dimensions.width < dimensions.height) {
-                                sharp(sourceFolder + images[key])
-                                    .resize(180, 240)
-                                    .toFile(`${albumsFolder}${albumCounter}_${album}/${targetSizes[targetSize]}/th_${images[key]}`, (err, info) =>
-                                        (err) => console.log(err));
-                                //console.log('Vertical thumbs ' + images[key]);
-                            }
-                            // resizing horizontal pictures
-                            else {
-                                sharp(sourceFolder + images[key])
-                                    .resize(240, 180)
-                                    .toFile(`${albumsFolder}${albumCounter}_${album}/${targetSizes[targetSize]}/th_${images[key]}`, (err, info) =>
-                                        (err) => console.log(err));
-                            }
-                        }
-
-                        // resizing images to medium size (using divider based on original size)
-                        if (targetSizes[targetSize] === 'medium') {
-
-                            if (dimensions.width > 2000 || dimensions.height > 2000) divider = 4;
-                            else divider = 2;
-
-                            sharp(sourceFolder + images[key])
-                                .resize(Math.floor(dimensions.width / divider), Math.floor(dimensions.height / divider))
-                                .toFile(`${albumsFolder}${albumCounter}_${album}/${targetSizes[targetSize]}/med_${images[key]}`, (err, info) =>
-                                    (err) => console.log(err));
-                        }
+                    // thumbs vertical
+                    if (dimensions.width < dimensions.height) {
+                        sharp(sourceFolder + images[key])
+                            .resize(180, 240)
+                            .toFile(`${albumsFolder}${albumCounter}_${album}/thumb/th_${images[key]}`, (err, info) =>
+                                (err) => console.log(err));
                     }
+                    // thumbs horizontal
+                    else {
+                        sharp(sourceFolder + images[key])
+                            .resize(240, 180)
+                            .toFile(`${albumsFolder}${albumCounter}_${album}/thumb/th_${images[key]}`, (err, info) =>
+                                (err) => console.log(err));
+                    }
+                    // medium images
+                    if (dimensions.width > 2000 || dimensions.height > 2000) divider = 4;
+                    else divider = 2;
+
+                    sharp(sourceFolder + images[key])
+                        .resize(Math.floor(dimensions.width / divider), Math.floor(dimensions.height / divider))
+                        .toFile(`${albumsFolder}${albumCounter}_${album}/medium/med_${images[key]}`, (err, info) =>
+                            (err) => console.log(err));
+
+                    //large images
                     sharp(sourceFolder + images[key])
                         .resize(dimensions.width, dimensions.height)
                         .toFile(`${albumsFolder}${albumCounter}_${album}/large/${images[key]}`, (err, info) =>
                             (err) => console.log(err));
-                    //console.log('Large images ' + images[key]);
                 }
 
             } // end for-in

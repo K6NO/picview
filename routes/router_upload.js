@@ -55,11 +55,13 @@ var upload = multer({
 
 router.post('/upload', upload.array('image', 100), (req, res, next) => {
     console.log(req.files);
+    console.log(req.body.albumName);
+
 
     // RESIZING ...
-    resizer.resizeImages(__dirname + '/..' + '/public' + '/img/upload/', ['thumb', 'medium'], 'newalbum');
+    resizer.resizeImages(__dirname + '/..' + '/public' + '/img/upload/', req.body.albumName);
 
-    res.send(req.body);
+    res.send(req.body.albumName);
 });
 
 module.exports = router;
