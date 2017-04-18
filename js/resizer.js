@@ -27,18 +27,21 @@ function getAlbumCounter(){
  * @param album
  */
 function resizeImages(sourceFolder, album) {
-    console.log('called resizer');
-    console.log(sourceFolder);
+
+    let albumCounter = getAlbumCounter();
 
     fs.readdir(sourceFolder, function (error, images) {
         if (!error) {
             // count the number of albums, get new id (for folder naming)
-            let albumCounter = getAlbumCounter();
-            fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}`);
+            if(!fs.existsSync(`${albumsFolder}${albumCounter}_${album}`)) {
+                fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}`);
+            }
             fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/large`);
             fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/medium`);
             fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/thumb`);
-            fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/zip`);
+            if (!fs.existsSync(`${albumsFolder}${albumCounter}_${album}/zip`)){
+                fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/zip`);
+            }
 
 
             for (let key in images) {
@@ -77,12 +80,14 @@ function resizeImages(sourceFolder, album) {
                         .toFile(`${albumsFolder}${albumCounter}_${album}/large/${images[key]}`, (err, info) =>
                             (err) => console.log(err));
                 }
-
+            console.log('resizer 1');
             } // end for-in
         } else {
             console.error("Error when attempting to read image source folder: " + error);
         }
     }); // end readdir
+
+    return albumCounter;
 }
 
 module.exports.resizeImages = resizeImages;

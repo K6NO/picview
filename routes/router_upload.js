@@ -9,6 +9,9 @@ const resizer = require('../js/resizer.js');
 const fs = require('fs');
 const archiver = require('archiver');
 
+const zip = require('node-zip')();
+const admZip = require('adm-zip');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
 
@@ -58,26 +61,58 @@ var upload = multer({
 router.post('/upload', upload.array('image', 100), (req, res, next) => {
 
     // RESIZING ...
-    resizer.resizeImages(appRootDir + '/public/img/upload/', req.body.albumName);
+    let albumCounter = resizer.resizeImages(appRootDir + '/public/img/upload/', req.body.albumName);
+    console.log('resizer 2')
+    req.body.albumCounter = albumCounter;
     next();
 
 }, (req, res, next) => {
-    // ARCHIVER
-    var output = fs.createWriteStream(__dirname + '/' + req.body.albumName + '.zip');
-    var archive = archiver('zip');
-    
-    output.on('close', function () {
-        console.log(archive.pointer() + ' total bytes');
-        console.log('archiver has been finalized and the output file descriptor has closed.');
-    });
-    output.on('error', function (err) {
-        next(err);
-    });
 
-    archive.pipe(output);
-    archive.directory(appRootDir + '/public/img/upload/', req.body.albumName);
-    archive.finalize();
+    //ZIP
+    console.log('zipper 1');
+    var zip = new admZip();
+    zip.addLocalFolder(appRootDir + '/public/img/upload/');
+    zip.writeZip(appRootDir + '/public/img/albums/' + req.body.albumCounter + '_' + req.body.albumName + '/zip/' + req.body.albumCounter + '_' + req.body.albumName +'.zip');
+    console.log('zipper 2');
     next();
+
+    //fs.readdir(appRootDir + '/public/img/upload/', (err, files) => {
+    //    for (let key in files) {
+    //        zip.file(req.body.albumName,fs.readFileSync(path.join(appRootDir, '/public/img/upload/', files[key])))
+    //    }
+    //
+    //    next();
+    //});
+
+    //fs.readdir(appRootDir + '/public/img/upload/', (err, files) => {
+    //    for (let key in files) {
+    //        zip.file(req.body.albumName,fs.readFileSync(path.join(appRootDir, '/public/img/upload/', files[key])))
+    //    }
+    //    var data = zip.generate({base64: false, compression: 'DEFLATE'});
+    //    fs.writeFileSync('output.zip', data, 'binary');
+    //    next();
+    //});
+
+
+
+    // ARCHIVER
+    //var output = fs.createWriteStream(__dirname + '/' + req.body.albumName + '.zip');
+    //var archive = archiver('zip', {
+    //    store : true
+    //});
+    //
+    //output.on('close', function () {
+    //    console.log(archive.pointer() + ' total bytes');
+    //    console.log('archiver has been finalized and the output file descriptor has closed.');
+    //});
+    //output.on('error', function (err) {
+    //    next(err);
+    //});
+    //
+    //archive.pipe(output);
+    //archive.directory(appRootDir + '/public/img/upload/');
+    //archive.finalize();
+    //next();
 
 }, (req, res, next) => {
     // DELETE ...
