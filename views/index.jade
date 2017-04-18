@@ -9,16 +9,11 @@ block content
                         .album-image
                             a(href=album.albumLink)
                                 img.album-cover(src=album.albumCover)
-                            // <h3 class="album-date">{{albumDate}}</h3>
                             h2.album-title #{album.albumName}
                         .album-download-container
-                            span.album-download-heading Download album
-                            a.album-download(href=album.albumDLmedium)
-                                i.fa.fa-download(aria-hidden='true')
-                                |  medium
                             a.album-download(href=album.albumDLfull)
                                 i.fa.fa-download(aria-hidden='true')
-                                |  full size
+                                |  download
     //.content-container
     //    .content-container-header
     //        .content-ribbon

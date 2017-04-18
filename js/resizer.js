@@ -86,7 +86,6 @@ function resizeImages(sourceFolder, album) {
             console.error("Error when attempting to read image source folder: " + error);
         }
     }); // end readdir
-
     return albumCounter;
 }
 
