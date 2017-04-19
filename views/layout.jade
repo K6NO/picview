@@ -1,12 +1,24 @@
 doctype html
 html(lang='en')
-    include ./partials/_head
-    body
-        include ./partials/_header.jade
+    include partials/_head
+    body#top(data-feedly-mini='yes')
+        include partials/_navbar
         block content
 
-        //jQuery
-        script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")
-        // custom JS
-        script(src="/js/app.js")
-        script(src="/js/lightbox.js")
+    //
+        jQuery, Bootstrap core JavaScript
+    //script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")
+    script(src='/css/bootstrap/tether.min.js', integrity='sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb', crossorigin='anonymous')
+    script(src='/css/bootstrap/holder.min.js')
+    script.
+        $(function () {
+            Holder.addTheme("thumb", {background: "#55595c", foreground: "#eceeef", text: "Thumbnail"});
+        });
+    script(src='/css/bootstrap/bootstrap.min.js')
+    // IE10 viewport hack for Surface/desktop Windows 8 bug
+    script(src='/css/bootstrap/ie10-viewport-bug-workaround.js')
+    svg(xmlns='http://www.w3.org/2000/svg', width='356', height='280', viewbox='0 0 356 280', preserveaspectratio='none', style='display: none; visibility: hidden; position: absolute; top: -100%; left: -100%;')
+        defs
+            style(type='text/css').
+        text(x='0', y='18', style='font-weight:bold;font-size:18pt;font-family:Arial, Helvetica, Open Sans, sans-serif') 356x280
+    #feedly-mini(title='feedly Mini tookit')

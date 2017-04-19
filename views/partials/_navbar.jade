@@ -1,0 +1,20 @@
+// navbar
+nav.navbar.navbar-toggleable-md.navbar-inverse.bg-inverse
+    .container.ml-auto
+        button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+            span.navbar-toggler-icon
+        #navbarSupportedContent.collapse.navbar-collapse
+            ul.navbar-nav
+                li.nav-item
+                    a.nav-link(href='/')
+                        i.fa.fa-step-backward(aria-hidden='true')
+                        |  Back
+                li.nav-item
+                    a.nav-link(data-toggle='modal', data-target='#uploadmodal', href='#')
+                        i.fa.fa-upload(aria-hidden='true')
+                        |  Upload
+                li.nav-item
+                    a.nav-link(href='/signout')
+                        i.fa.fa-sign-out(aria-hidden='true')
+                        |  Sign out
+        a.navbar-brand(href='/') Picview

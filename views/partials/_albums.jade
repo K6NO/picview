@@ -1,0 +1,14 @@
+// albums
+.album.text-muted
+    .container
+        h1.display-4
+            strong Albums
+        #albums-list.row.justify-content-center
+            each album in albums
+                .col-md-6.col-lg-4
+                    .card(style='width: 20rem;')
+                        a(href=album.albumLink)
+                            img(src=album.albumCover, alt=album.albumName, style='height: 240px; width: 100%; display: block;')
+                        span.card-text.album-title #{album.albumName.slice(2)}
+                            a.card-text.text-uppercase(href=album.albumDLfull)&nbsp;
+                                i.album-icon.fa.fa-download.fa(aria-hidden='true')

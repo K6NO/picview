@@ -1,0 +1,15 @@
+.album.text-muted
+    .container.text-center
+        h1.display-5.text-uppercase #{singleAlbum.albumName.slice(2)}
+        a.h5.text(href=singleAlbum.albumDLfull)
+            | Download&nbsp;
+            i.fa.fa-download(aria-hidden='true')
+        #albums-list.row.mt-3
+            each picture in singleAlbum.pictures
+                .col-sm-6.col-md-4.col-lg-4.col-xl-3
+                    .card.picture-details
+                        a(href=picture.link, data-lightbox=picture.albumName)
+                            img.img-thumbnail.rounded.mx-auto.picture-image(src=picture.src, alt=picture.alt, height=picture.height, width=picture.width)
+        a.h4(href=singleAlbum.albumDLfull)
+            | Download&nbsp;
+            i.fa.fa-download(aria-hidden='true')

@@ -1,0 +1,21 @@
+// modal
+#uploadmodal.modal.fade
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5.modal-title Upload new album
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') ×
+            .modal-body
+                // form
+                form(action='/upload', enctype='multipart/form-data', method='post')
+                    .form-group.text-muted
+                        label(for='albumName') Album name
+                        input#albumName.form-control(type='text', name='albumName')
+                    .form-group
+                        label(for='albumYear') Year
+                        input#albumYear.form-control(type='text', name='albumDate')
+                    .form-group
+                        input#upload.form-control-file(type='file', multiple='multiple', name='image', aria-describedby='fileHelp')
+                        small#fileHelp.form-text.text-muted max. 50 pictures / max 50MB
+                        button.btn-outline-primary.btn-lg(type='submit') Upload

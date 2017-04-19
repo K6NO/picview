@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    .content-container
+        .content-container-header
+            .content-ribbon
+                span.content-ribbon-image-text #{singleAlbum.albumName}
+            .content-download-links-div
+                a.album-download(href=singleAlbum.albumDLfull)
+                    i.fa.fa-download(aria-hidden='true')
+                    |  download
+                a.album-download(href='/')
+                    i.fa.fa-step-backward(aria-hidden='true')
+                    |  back
+            .content-list-div
+                ul#pictures-list.pictures-list
+                    each picture in singleAlbum.pictures
+                        li.picture-item
+                            .picture-details
+                                a.picture-link(href=picture.link, data-lightbox=picture.albumName)
+                                    img.picture-image(src=picture.src, alt=picture.alt, height=picture.height, width=picture.width)

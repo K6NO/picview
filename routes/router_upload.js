@@ -13,9 +13,9 @@ const admZip = require('adm-zip');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
 
-router.get('/upload', (req, res, next) => {
-    res.render('upload');
-});
+//router.get('/upload', (req, res, next) => {
+//    res.render('upload');
+//});
 
 
 // setting up storage and file naming
@@ -60,7 +60,7 @@ router.post('/upload', upload.array('image', 100), (req, res, next) => {
 
     // RESIZING ...
     let albumCounter = resizer.resizeImages(appRootDir + '/public/img/upload/', req.body.albumName);
-    console.log('resizer 2')
+    console.log('resizer 2');
     req.body.albumCounter = albumCounter;
     next();
 
