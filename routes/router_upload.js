@@ -56,14 +56,36 @@ var upload = multer({
     }
 });
 
+//function resizing (req, res, next) {
+//    resizer.resizeImages(appRootDir + '/public/img/upload/', req.body.albumName, function foo(err, user) {
+//        if(err) {
+//            return res.send(401); ///respond with unauthorized  and do not call the next middleware.
+//        }
+//        req.body.albumCounter = user; //put the user in the request object so the next middleware can use it
+//        next(); //call the next middleware.
+//    });
+//}
+
 router.post('/upload', upload.array('image', 100), (req, res, next) => {
 
+    var albumCount = new Promise(function (resolve, reject) {
+        fs.readdir(albumsFolder, (err, files) => {
+            if(err) reject(err);
+            let counter = 0;
+            for(let entry in files){
+                if(files[entry].indexOf('.') === -1){
+                    counter ++;
+                }
+            }
+            resolve(console.log(counter));
+        })
+    });
     // RESIZING ...
+    //resizing(req, res, next);
     let albumCounter = resizer.resizeImages(appRootDir + '/public/img/upload/', req.body.albumName);
     console.log('resizer 2');
     req.body.albumCounter = albumCounter;
     next();
-
 }, (req, res, next) => {
 
     //ZIP

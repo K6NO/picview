@@ -8,3 +8,5 @@ Album example for Bootstrap.html
 views/oldjade
 bootstrap.html
 bootstrap_album.html
+js/promise.js
+js/stack.js
