@@ -1,5 +1,12 @@
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require('fs'));
 const express = require('express');
 const router = express.Router();
+const Album = require('../js/album.js');
+const moment = require('moment');
+
+const albumsFolder = 'public/img/albums'
+
 
 const albumService = require('../js/albumservice.js');
 
@@ -8,21 +15,36 @@ router.use('/', require('./router_login.js'));
 router.use('/', require('./router_download.js'));
 
 router.get('/', (req, res, next) => {
-    let albums = albumService.getAlbumsList({});
-    console.log('GET request to /');
-    res.render('index', {
-        albums : albums
+    fs.readdirAsync(albumsFolder)
+        .then((files)=> {
+
+            let albumsList = [];
+            for (let key in files){
+                if(files[key].indexOf('.') === -1) {
+                    console.log(files[key]);
+                    let albumName = files[key];
+                    let albumDate = moment().format('YYYY');
+                    let album = new Album({albumName: albumName, date: albumDate});
+                        albumsList.push(album);
+                    }
+                }
+            return albumsList;
+        })
+        .then((albumsList)=> {
+            console.log('GET request to /');
+            res.render('index', {
+                albums : albumsList
+        });
     });
 });
 
 router.get('/albums/:albumId', (req, res, next) => {
-    let album = albumService.getSingleAlbum({albumName : req.params.albumId});
-    let albums = albumService.getAlbumsList({});
+    let album = new Album({albumName: req.params.albumId});
     console.log(req.params.albumId);
     res.render('album', {
-        singleAlbum : album,
-        albums : albums
+        singleAlbum : album
     });
+
 });
 
 
