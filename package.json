@@ -4,7 +4,9 @@
   "description": "Simple image view app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node js/app.js",
+    "devstart": "nodemon js/app.js"
   },
   "author": "K6NO",
   "license": "MIT",
@@ -26,6 +28,7 @@
     "pug": "^2.0.0-beta11"
   },
   "devDependencies": {
-    "sharp": "^0.17.2"
+    "sharp": "^0.17.2",
+    "nodemon": "^1.12.1"
   }
 }
