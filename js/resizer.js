@@ -35,7 +35,10 @@ function createAlbumFolders(albumsFolder, albumCounter, album){
 function resizingImages(images, sourceFolder, albumCounter, album){
     for (let key in images) {
         //selecting .jpg images, getting dimensions
-        if (images[key].toLowerCase().indexOf('.jpg') !== -1) {
+        if (images[key].toLowerCase().indexOf('.jpg') !== -1 ||
+            images[key].toLowerCase().indexOf('.png') !== -1 ||
+            images[key].toLowerCase().indexOf('.jpeg') !== -1 ||
+            images[key].toLowerCase().indexOf('.gif') !== -1 ) {
             var dimensions = sizeOf(sourceFolder + images[key]);
             var divider;
 

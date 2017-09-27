@@ -68,18 +68,18 @@ var upload = multer({
 
 router.post('/upload', upload.array('image', 100), (req, res, next) => {
 
-    var albumCount = new Promise(function (resolve, reject) {
-        fs.readdir(albumsFolder, (err, files) => {
-            if(err) reject(err);
-            let counter = 0;
-            for(let entry in files){
-                if(files[entry].indexOf('.') === -1){
-                    counter ++;
-                }
-            }
-            resolve(console.log(counter));
-        })
-    });
+    //var albumCount = new Promise(function (resolve, reject) {
+    //    fs.readdir(albumsFolder, (err, files) => {
+    //        if(err) reject(err);
+    //        let counter = 0;
+    //        for(let entry in files){
+    //            if(files[entry].indexOf('.') === -1){
+    //                counter ++;
+    //            }
+    //        }
+    //        resolve(console.log(counter));
+    //    })
+    //});
     // RESIZING ...
     //resizing(req, res, next);
     let albumCounter = resizer.resizeImages(appRootDir + '/public/img/upload/', req.body.albumName);

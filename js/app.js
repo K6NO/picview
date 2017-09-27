@@ -1,12 +1,9 @@
-const http = require('http');
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 
 const app = express();
 const indexRouter = require('../routes/router_index.js');
-
-//const albumService = require('./albumservice.js');
 
 app.set('views', path.join(__dirname, '..', 'views'));
 app.set('view engine', 'jade');
