@@ -1,5 +1,4 @@
-//TODO refactor Picture and Album into classes
-class Picture{
+class Picture {
 
     constructor (src, link, alt, dataLightbox, height, width) {
         this.src = src;
