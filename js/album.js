@@ -41,7 +41,6 @@ class Album {
     constructor({albumName, albumDate = 2017} = { }) {
         this.albumName = albumName;
         this.albumDate = albumDate;
-        this.pictures = this.getThumbnails();
         this.albumCover = this.getAlbumCover();
         this.albumLink = `albums/${albumName}`;
         this.albumDLmedium = `/download/${albumName}/medium`;

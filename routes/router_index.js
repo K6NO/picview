@@ -17,7 +17,6 @@ router.use('/', require('./router_download.js'));
 router.get('/', (req, res, next) => {
     fs.readdirAsync(albumsFolder)
         .then((files)=> {
-
             let albumsList = [];
             for (let key in files){
                 if(files[key].indexOf('.') === -1) {
@@ -40,9 +39,13 @@ router.get('/', (req, res, next) => {
 
 router.get('/albums/:albumId', (req, res, next) => {
     let album = new Album({albumName: req.params.albumId});
-    console.log(req.params.albumId);
+    let pictures = album.getThumbnails();
+    let cover = album.getAlbumCover();
+    console.log(pictures);
     res.render('album', {
-        singleAlbum : album
+        singleAlbum : album,
+        pictures : pictures,
+        cover : cover
     });
 
 });
