@@ -21,14 +21,14 @@ function getAlbumCounter(albumsFolder){
 }
 
 function createAlbumFolders(albumsFolder, albumCounter, album){
-    if(!fs.existsSync(`${albumsFolder}${albumCounter}_${album}`)) {
-        fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}`);
+    if(!fs.existsSync(`${albumsFolder}${albumCount}_${album}`)) {
+        fs.mkdirSync(`${albumsFolder}${albumCount}_${album}`);
     }
-    fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/large`);
-    fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/medium`);
-    fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/thumb`);
-    if (!fs.existsSync(`${albumsFolder}${albumCounter}_${album}/zip`)){
-        fs.mkdirSync(`${albumsFolder}${albumCounter}_${album}/zip`);
+    fs.mkdirSync(`${albumsFolder}${albumCount}_${album}/large`);
+    fs.mkdirSync(`${albumsFolder}${albumCount}_${album}/medium`);
+    fs.mkdirSync(`${albumsFolder}${albumCount}_${album}/thumb`);
+    if (!fs.existsSync(`${albumsFolder}${albumCount}_${album}/zip`)){
+        fs.mkdirSync(`${albumsFolder}${albumCount}_${album}/zip`);
     }
 }
 
@@ -47,14 +47,14 @@ function resizingImages(images, sourceFolder, albumCounter, album){
             if (dimensions.width < dimensions.height) {
                 sharp(sourceFolder + images[key])
                     .resize(180, 240)
-                    .toFile(`${albumsFolder}${albumCounter}_${album}/thumb/th_${images[key]}`, (err, info) =>
+                    .toFile(`${albumsFolder}${albumCount}_${album}/thumb/th_${images[key]}`, (err, info) =>
                         (err) => console.log(err));
             }
             // thumbs horizontal
             else {
                 sharp(sourceFolder + images[key])
                     .resize(240, 180)
-                    .toFile(`${albumsFolder}${albumCounter}_${album}/thumb/th_${images[key]}`, (err, info) =>
+                    .toFile(`${albumsFolder}${albumCount}_${album}/thumb/th_${images[key]}`, (err, info) =>
                         (err) => console.log(err));
             }
             // medium images
@@ -63,13 +63,13 @@ function resizingImages(images, sourceFolder, albumCounter, album){
 
             sharp(sourceFolder + images[key])
                 .resize(Math.floor(dimensions.width / divider), Math.floor(dimensions.height / divider))
-                .toFile(`${albumsFolder}${albumCounter}_${album}/medium/med_${images[key]}`, (err, info) =>
+                .toFile(`${albumsFolder}${albumCount}_${album}/medium/med_${images[key]}`, (err, info) =>
                     (err) => console.log(err));
 
             // large images
             sharp(sourceFolder + images[key])
                 .resize(dimensions.width, dimensions.height)
-                .toFile(`${albumsFolder}${albumCounter}_${album}/large/${images[key]}`, (err, info) =>
+                .toFile(`${albumsFolder}${albumCount}_${album}/large/${images[key]}`, (err, info) =>
                     (err) => console.log(err));
         }
         console.log('resizer 1');
@@ -92,12 +92,12 @@ function resizeImages(uploadFolder, album) {
         if (!error) {
             // count the number of albums, get new id (for folder naming)
             // should return a promise if directories created
-            createAlbumFolders(albumsFolder, albumCounter, album);
-            resizingImages(images, uploadFolder, albumCounter, album);
+            createAlbumFolders(albumsFolder, albumCount, album);
+            resizingImages(images, uploadFolder, albumCount, album);
         } else {
             console.error("Error when attempting to read image source folder: " + error);
         }
     }); // end readdir
-    return albumCounter;
+    return albumCount;
 }
 module.exports.resizeImages = resizeImages;

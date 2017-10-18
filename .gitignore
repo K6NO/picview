@@ -2,11 +2,7 @@
 node_modules/
 public/img/albums/
 public/img/upload
-views/oldhtmls/
 kodkuka/
-Album example for Bootstrap.html
 views/oldjade
-bootstrap.html
-bootstrap_album.html
-js/promise.js
-js/stack.js
+js/resizer.js
+js/sandbox.js
