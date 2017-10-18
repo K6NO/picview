@@ -3,9 +3,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const app = express();
-const indexRouter = require('../routes/router_index.js');
+const indexRouter = require('./routes/router_index.js');
 
-app.set('views', path.join(__dirname, '..', 'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(bodyParser.json());

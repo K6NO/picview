@@ -2,7 +2,7 @@ const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const express = require('express');
 const router = express.Router();
-const Album = require('../js/album.js');
+const Album = require('../album.js');
 const moment = require('moment');
 const path = require('path');
 

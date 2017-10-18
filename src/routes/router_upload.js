@@ -5,8 +5,8 @@ const app = new express();
 const bodyParser = require('body-parser');
 const path = require('path');
 //const appRootDir = require('app-root-dir').get();
-const resizer = require('../js/resizer.js');
-const fileOperations = require('../js/fileoperations.js');
+const resizer = require('../resizer.js');
+const fileOperations = require('../fileoperations.js');
 const fs = require('fs');
 
 //const admZip = require('adm-zip');
@@ -60,7 +60,7 @@ var upload = multer({
 
 router.post('/upload', upload.array('image', 100), (req, res, next) => {
 
-    // Check upload folder, count exsiting albums, resize pictures, zip, delete files from upload folder
+    // MAGIC HAPPENS HERE - check upload folder, count exsiting albums, resize pictures, zip, delete files from upload folder
     fileOperations.resizeZipDelete(req.body.albumName);
     res.redirect('/');
 });

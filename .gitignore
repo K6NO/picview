@@ -3,6 +3,6 @@ node_modules/
 public/img/albums/
 public/img/upload
 kodkuka/
-views/oldjade
+src/views/oldjade
 js/resizer.js
 js/sandbox.js
