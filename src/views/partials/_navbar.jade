@@ -5,16 +5,28 @@ nav.navbar.navbar-toggleable-md.navbar-inverse.bg-inverse
             span.navbar-toggler-icon
         #navbarSupportedContent.collapse.navbar-collapse
             ul.navbar-nav
-                li.nav-item
-                    a.nav-link(href='/')
-                        i.fa.fa-step-backward(aria-hidden='true')
-                        |  Back
-                li.nav-item
-                    a.nav-link(data-toggle='modal', data-target='#uploadmodal', href='#')
-                        i.fa.fa-upload(aria-hidden='true')
-                        |  Upload
-                li.nav-item
-                    a.nav-link(href='/logout')
-                        i.fa.fa-sign-out(aria-hidden='true')
-                        |  Sign out
-        a.navbar-brand(href='/') Picview
+                if user
+                    li.nav-item
+                        a.nav-link(href='/')
+                            i.fa.fa-step-backward(aria-hidden='true')
+                            |  Dashboard
+                    li.nav-item
+                        a.nav-link(data-toggle='modal', data-target='#uploadmodal', href='#')
+                            i.fa.fa-upload(aria-hidden='true')
+                            |  Upload
+                    li.nav-item
+                        a.nav-link(href='/logout')
+                            i.fa.fa-sign-out(aria-hidden='true')
+                            |  Sign out
+                if !user
+                    li.nav-item
+                        a.nav-link(href='/register')
+                            i.fa.fa-sign-out(aria-hidden='true')
+                            |  Register
+                    li.nav-item
+                        a.nav-link(href='/login')
+                            i.fa.fa-sign-out(aria-hidden='true')
+                            |  Login
+        a.navbar-brand(href='/')
+                            h3 KÉPKUKKANTÓ &nbsp
+                              i.fa.fa-camera-retro(aria-hidden='true')

@@ -5,7 +5,7 @@ const app = new express();
 const bodyParser = require('body-parser');
 const path = require('path');
 //const appRootDir = require('app-root-dir').get();
-const resizer = require('../resizer.js');
+const resizer = require('../../kodkuka/resizer.js');
 const fileOperations = require('../fileoperations.js');
 const fs = require('fs');
 
@@ -31,10 +31,10 @@ var storage = multer.diskStorage({
     }
 });
 
-// setting up limits (max 10MB/picture, max 100 pictures at once)
+// setting up limits (max 5MB/picture, max 50 pictures at once)
 var limits = {
-    fileSize : 10000000,
-    files: 100
+    fileSize : 5000000,
+    files: 50
 
 };
 

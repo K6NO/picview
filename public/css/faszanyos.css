@@ -1,3 +1,23 @@
+@import "https://fonts.googleapis.com/css?family=Lato:300,400,500,600,700";
+@import "https://fonts.googleapis.com/css?family=Rubik:300,400,500,600,700";
+
+body {
+    color: #4c5462;
+    font-family: "Lato", sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Rubik", sans-serif;
+    color: #b4b3b6;
+    padding-top: .3em;
+    font-style: normal;
+    font-weight: 500;
+}
+
 .picture-image {
     display: block;
     margin: 0;
@@ -36,6 +56,7 @@
 }
 
 .album-icon {
+    display: inline-block;
     padding-left: 1em;
     color: #ffffff;
 }

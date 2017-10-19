@@ -6,8 +6,6 @@ const sizeOf = require('image-size');
 const sharp = require('sharp'); // Sharp resize documentation: http://sharp.dimens.io/en/stable/api-resize/
 const archiver = require('archiver');
 
-//var album = 'aztaaaa';
-
 function checkUploadFolder (album) {
     console.log('checkupload: ' + album);
 

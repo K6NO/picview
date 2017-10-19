@@ -10,14 +10,22 @@ class Album {
     getThumbnails () {
         let sourceFolder = path.join(__dirname, '..', 'public/img/albums', this.albumName);
         let listOfThumbnails = [];
+
+        // read the thumbs folder of the album
         return fs.readdirAsync(path.join(sourceFolder, 'thumb'))
             .then((thumbs)=> {
                 for (let key in thumbs) {
+
+                    // work only with supported file formats
                     if (thumbs[key].toLowerCase().indexOf('.jpg') !== -1 ||
                         thumbs[key].toLowerCase().indexOf('.png') !== -1 ||
                         thumbs[key].toLowerCase().indexOf('.jpeg') !== -1 ||
                         thumbs[key].toLowerCase().indexOf('.gif') !== -1 ) {
+
+                        // use sizeOf to measure horizontal and vertical dimensions for proper image display
                         let thumbsDimensions = sizeOf(path.join(sourceFolder, 'thumb', thumbs[key]));
+
+                        // create Picture objects
                         let src = path.join('/img', 'albums', this.albumName, 'thumb', thumbs[key]); //`../public/img/albums/${this.albumName}/thumb/${thumbs[key]}`;
                         let link = path.join('/img', 'albums', this.albumName, 'medium', 'med_' + thumbs[key].slice(3)); //`../public/img/albums/${this.albumName}/medium/med_${thumbs[key].slice(3)}`;
                         let alt = thumbs[key].slice(0, -4);
@@ -30,30 +38,13 @@ class Album {
             });
     };
 
-    //getAlbumCover () {
-    //    return this.getThumbnails()
-    //        .then((pictures)=> {
-    //            let sourceFolder = path.join(__dirname, '..', 'public/');
-    //            let cover = pictures[Math.floor(Math.random() * pictures.length)].src;
-    //            let dimension = sizeOf(sourceFolder + cover);
-    //            while (dimension.width < dimension.height) {
-    //                cover = pictures[Math.floor(Math.random() * pictures.length)].src;
-    //                dimension = sizeOf(sourceFolder + cover);
-    //            }
-    //            console.log(cover);
-    //            return cover;
-    //        })
-    //        .then((cover)=> {
-    //            return cover;
-    //        });
-    //}
 
     constructor({albumName, albumDate = 2017} = { }) {
         this.albumName = albumName;
         this.albumDate = albumDate;
         this.albumCover = "";
         this.albumLink = `albums/${albumName}`;
-        this.albumDLmedium = `/download/${albumName}/medium`;
+        //this.albumDLmedium = `/download/${albumName}/medium`;
         this.albumDLfull = `/download/${albumName}/full`;
     }
 } // end of album

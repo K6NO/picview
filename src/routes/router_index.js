@@ -7,8 +7,6 @@ const moment = require('moment');
 const path = require('path');
 const mid = require('../auth_middleware.js');
 
-
-
 const albumsFolder = 'public/img/albums';
 
 router.use('/', require('./router_upload.js'));
@@ -44,8 +42,13 @@ router.get('/', mid.requiresLogin, (req, res, next) => {
                 // iterate the resolved promises (list of thumb files)
                 for (let key in albumThumbsList) {
 
-                    // choose a random image from among the thumbs
-                    let randomiser = Math.floor(Math.random() * albumThumbsList[key].length);
+                    // choose a random image from the thumbs (need to treat single image separately)
+                    let randomiser;
+                    if(albumThumbsList[key].length > 1){
+                        randomiser = Math.floor(Math.random() * albumThumbsList[key].length);
+                    } else {
+                        randomiser = 0;
+                    }
 
                     // add the albumCover on matching Album objects --> key in here needs to correspond to key in the above iteration
                     // fortunately promiseStack resolves in the same order as the promises were pushed in the list above
@@ -58,7 +61,8 @@ router.get('/', mid.requiresLogin, (req, res, next) => {
         })
         .then((albumsList)=> {
             res.render('index', {
-                albums : albumsList
+                albums : albumsList,
+                user: req.session.userId
         });
     });
 });
