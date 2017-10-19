@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const app = new express();
 const bodyParser = require('body-parser');
+const mid = require('../auth_middleware.js');
 let User = require('../user.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
 
-router.get('/login', (req, res, next) => {
+// Login
+router.get('/login', mid.loggedOut, (req, res, next) => {
     res.render('login');
 });
 
@@ -29,8 +31,8 @@ router.post('/login', (req, res, next) => {
    }
 });
 
-
-router.get('/register', (req, res, next) => {
+// Register
+router.get('/register', mid.loggedOut, (req, res, next) => {
     res.render('register');
 });
 
@@ -64,6 +66,18 @@ router.post('/register', (req, res, next) => {
         err.status = 400;
         return next(err);
     }
+});
+
+// Logout
+
+router.get('/logout', (req, res, next)=> {
+   if(req.session) {
+       // delete session object
+       req.session.destroy(function (err) {
+           if (err) return next(err);
+           return res.redirect('/login');
+       });
+   }
 });
 
 module.exports = router;

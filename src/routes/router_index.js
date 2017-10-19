@@ -5,6 +5,8 @@ const router = express.Router();
 const Album = require('../album.js');
 const moment = require('moment');
 const path = require('path');
+const mid = require('../auth_middleware.js');
+
 
 
 const albumsFolder = 'public/img/albums';
@@ -13,7 +15,7 @@ router.use('/', require('./router_upload.js'));
 router.use('/', require('./router_auth.js'));
 router.use('/', require('./router_download.js'));
 
-router.get('/', (req, res, next) => {
+router.get('/', mid.requiresLogin, (req, res, next) => {
     // async get list of album folders
     fs.readdirAsync(albumsFolder)
         .then((albums)=> {
@@ -61,7 +63,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.get('/albums/:albumId', (req, res, next) => {
+router.get('/albums/:albumId', mid.requiresLogin, (req, res, next) => {
     let album = new Album({albumName: req.params.albumId});
     album.getThumbnails()
         .then((pictures)=>{
