@@ -1,6 +1,9 @@
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
+const express = require('express'),
+    path = require('path'),
+    bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
+    mongoose = require('mongoose'),
+    session = require('express-session');
 
 const app = express();
 const indexRouter = require('./routes/router_index.js');
@@ -8,9 +11,35 @@ const indexRouter = require('./routes/router_index.js');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+// bodyParser and cookieParser middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Mongo session store
+const MongoStore = require('connect-mongo')(session);
+
+// MongoDB config
+let mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/kepnezegeto';
+let options = { promiseLibrary: require('bluebird') };
+
+mongoose.connect(mongoUri, options);
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error'));
+
+// Session config for Mongo
+let sessionOptions = {
+    secret: 'This is the secret pass phrase',
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore ({
+        mongooseConnection: db
+    })
+};
+
+app.use(session(sessionOptions));
 
 
 app.use('/', indexRouter);

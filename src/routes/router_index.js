@@ -10,7 +10,7 @@ const path = require('path');
 const albumsFolder = 'public/img/albums';
 
 router.use('/', require('./router_upload.js'));
-router.use('/', require('./router_login.js'));
+router.use('/', require('./router_auth.js'));
 router.use('/', require('./router_download.js'));
 
 router.get('/', (req, res, next) => {

@@ -1,11 +1,13 @@
 extends layout
 block content
-    .login-container
-        // set background
-        .login-form-container
+    .main.container.row
+        .col-md-6.col-md-offset-3
+            h1.display-4.m-b-2 Login
             form(method='post', action='#')
-                label(for='login-form-email') Email
-                input#login-form-email.login-form(type='email', name='login-form-email')
-                label(for='login-form-pass') Password
-                input#login-form-pass.login-form(type='password', name='login-form-pass')
+                div.form-group
+                    label(for='login-form-email') Email
+                    input#login-form-email.form-control(type='email', name='login-form-email')
+                div.form-group
+                    label(for='login-form-pass') Password
+                    input#login-form-pass.form-control(type='password', name='login-form-pass')
                 button#login-form-submit(type='submit', name='login-form-submit') Sign in
