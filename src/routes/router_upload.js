@@ -5,7 +5,7 @@ const app = new express();
 const bodyParser = require('body-parser');
 const path = require('path');
 //const appRootDir = require('app-root-dir').get();
-const resizer = require('../../kodkuka/resizer.js');
+const resizer = require('../resizer.js');
 const fileOperations = require('../fileoperations.js');
 const fs = require('fs');
 
