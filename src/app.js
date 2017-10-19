@@ -27,6 +27,8 @@ let options = { promiseLibrary: require('bluebird') };
 mongoose.connect(mongoUri, options);
 const db = mongoose.connection;
 
+let port = process.env.PORT || 3000;
+
 db.on('error', console.error.bind(console, 'connection error'));
 
 // Session config for Mongo
@@ -71,6 +73,6 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(3000, function(){
+app.listen(port, function(){
     console.log('Express server is running on port 3000');
 });
