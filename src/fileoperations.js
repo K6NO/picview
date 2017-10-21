@@ -1,5 +1,13 @@
 const fs = require('fs');
 const appRootDir = require('app-root-dir').get();
+
+const S3FS = require('s3fs');
+const bucketPath = 'http://s3.amazonaws.com/kepkukkanto/';
+let s3Options = {
+    region: 'eu-central-1'
+};
+let fsImpl = new S3FS(bucketPath, s3Options);
+
 const uploadFolder = appRootDir + '/public/img/upload/';
 const albumsFolder = appRootDir + '/public/img/albums/';
 const sizeOf = require('image-size');
@@ -7,7 +15,6 @@ const sharp = require('sharp'); // Sharp resize documentation: http://sharp.dime
 const archiver = require('archiver');
 
 function checkUploadFolder (album) {
-    console.log('checkupload: ' + album);
 
     return new Promise(function (resolve, reject) {
         fs.readdir(uploadFolder, (err, files) => {
@@ -143,7 +150,6 @@ function zipImages(images, albumCount, album) {
         // good practice to catch warnings (ie stat failures and other non-blocking errors)
         archive.on('warning', function(err) {
             if (err.code === 'ENOENT') {
-                console.log('fasza');
                 reject(new Error ('no such file or directory' + err));
 
             } else {
@@ -203,11 +209,6 @@ function deleteImagesFromUpload () {
             }
         });
     });
-}
-
-function loggerAsync (uploadFolder){
-    console.log('fuckyeeee');
-    console.log(uploadFolder);
 }
 
 
