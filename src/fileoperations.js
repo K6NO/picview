@@ -15,7 +15,6 @@ const sharp = require('sharp'); // Sharp resize documentation: http://sharp.dime
 const archiver = require('archiver');
 
 function checkUploadFolder (album) {
-
     return new Promise(function (resolve, reject) {
         fs.readdir(uploadFolder, (err, files) => {
             if(err) reject(err);
