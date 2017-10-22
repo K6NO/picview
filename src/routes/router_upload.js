@@ -4,13 +4,11 @@ const multer = require('multer');
 const app = new express();
 const bodyParser = require('body-parser');
 const path = require('path');
-//const appRootDir = require('app-root-dir').get();
 const resizer = require('../resizer.js');
-const fileOperations = require('../fileoperations.js');
+const fileOperations = require('../aws_upload_fileoperations.js');
 const fs = require('fs');
 
 
-//const admZip = require('adm-zip');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
