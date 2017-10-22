@@ -3,7 +3,7 @@ const appRootDir = require('app-root-dir').get();
 console.log(appRootDir);
 
 const S3FS = require('s3fs');
-const bucketPath = 'kepkukkanto';
+const bucketPath = process.env.S3_BUCKET_NAME || 'kepkukkanto';
 const access_key = process.env.AWS_ACCESS_KEY_ID || require('../secret.json').access_key;
 const secret = process.env.AWS_SECRET_ACCESS_KEY || require('../secret.json').secret;
 let s3Options = {

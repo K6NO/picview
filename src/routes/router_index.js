@@ -7,6 +7,17 @@ const moment = require('moment');
 const path = require('path');
 const mid = require('../auth_middleware.js');
 
+const S3FS = require('s3fs');
+const bucketPath = process.env.S3_BUCKET_NAME || 'kepkukkanto';
+const access_key = process.env.AWS_ACCESS_KEY_ID || require('../secret.json').access_key;
+const secret = process.env.AWS_SECRET_ACCESS_KEY || require('../secret.json').secret;
+let s3Options = {
+    region: 'eu-central-1',
+    accessKeyId : access_key,
+    secretAccessKey : secret
+};
+let fsImpl = new S3FS(bucketPath, s3Options);
+
 const albumsFolder = 'public/img/albums';
 
 router.use('/', require('./router_upload.js'));
@@ -15,7 +26,7 @@ router.use('/', require('./router_download.js'));
 
 router.get('/', mid.requiresLogin, (req, res, next) => {
     // async get list of album folders
-    fs.readdirAsync(albumsFolder)
+    fsImpl.readdirAsync(albumsFolder)
         .then((albums)=> {
             let albumsList = [];
             let promiseStack = [];
@@ -33,7 +44,7 @@ router.get('/', mid.requiresLogin, (req, res, next) => {
                     albumsList.push(album);
 
                     // async read the thumb subfolder in each album folder, push the promises to a list
-                    promiseStack.push(fs.readdirAsync(path.join(albumsFolder, albumName, 'thumb')));
+                    promiseStack.push(fsImpl.readdirAsync(path.join(albumsFolder, albumName, 'thumb')));
                 }
             }
             // resolve all concurrent promises at once --> will be several list of thumb files
