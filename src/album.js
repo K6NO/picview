@@ -3,30 +3,18 @@ const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
 const sizeOf = require('image-size');
 
-const S3FS = require('s3fs');
-const bucketPath = process.env.S3_BUCKET_NAME || 'kepkukkanto';
-const access_key = process.env.AWS_ACCESS_KEY_ID || require('../secret.json').access_key;
-const secret = process.env.AWS_SECRET_ACCESS_KEY || require('../secret.json').secret;
-let s3Options = {
-    region: 'eu-central-1',
-    accessKeyId : access_key,
-    secretAccessKey : secret
-};
-let fsImpl = new S3FS(bucketPath, s3Options);
-
-
 let Picture = require('./picture.js');
 
 class Album {
 
     getThumbnails () {
         let sourceFolder = path.join(
-            //__dirname, '..',
+            __dirname, '..',
             'public/img/albums', this.albumName);
         let listOfThumbnails = [];
 
         // read the thumbs folder of the album
-        return fsImpl.readdirAsync(path.join(sourceFolder, 'thumb'))
+        return fs.readdirAsync(path.join(sourceFolder, 'thumb'))
             .then((thumbs)=> {
                 for (let key in thumbs) {
 

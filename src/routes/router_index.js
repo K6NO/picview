@@ -7,10 +7,12 @@ const moment = require('moment');
 const path = require('path');
 const mid = require('../auth_middleware.js');
 
+const DlFileOperations = require('../download_fileoperations');
+
 const S3FS = require('s3fs');
 const bucketPath = process.env.S3_BUCKET_NAME || 'kepkukkanto';
-const access_key = process.env.AWS_ACCESS_KEY_ID || require('../secret.json').access_key;
-const secret = process.env.AWS_SECRET_ACCESS_KEY || require('../secret.json').secret;
+const access_key = process.env.AWS_ACCESS_KEY_ID || require('../../secret.json').access_key;
+const secret = process.env.AWS_SECRET_ACCESS_KEY || require('../../secret.json').secret;
 let s3Options = {
     region: 'eu-central-1',
     accessKeyId : access_key,
@@ -24,55 +26,15 @@ router.use('/', require('./router_upload.js'));
 router.use('/', require('./router_auth.js'));
 router.use('/', require('./router_download.js'));
 
+
+
+
 router.get('/', mid.requiresLogin, (req, res, next) => {
-    // async get list of album folders
-    fsImpl.readdirAsync(albumsFolder)
-        .then((albums)=> {
-            let albumsList = [];
-            let promiseStack = [];
 
-            // iterate list list of album folders
-            for (let key in albums){
-
-                // exclude any files, other shit
-                if(albums[key].indexOf('.') === -1) {
-
-                    // create Album instances, push it to a list
-                    let albumName = albums[key];
-                    let albumDate = moment().format('YYYY');
-                    let album = new Album({albumName: albumName, date: albumDate});
-                    albumsList.push(album);
-
-                    // async read the thumb subfolder in each album folder, push the promises to a list
-                    promiseStack.push(fsImpl.readdirAsync(path.join(albumsFolder, albumName, 'thumb')));
-                }
-            }
-            // resolve all concurrent promises at once --> will be several list of thumb files
-            return Promise.all(promiseStack).then((albumThumbsList)=> {
-
-                // iterate the resolved promises (list of thumb files)
-                for (let key in albumThumbsList) {
-
-                    // choose a random image from the thumbs (need to treat single image separately)
-                    let randomiser;
-                    if(albumThumbsList[key].length > 1){
-                        randomiser = Math.floor(Math.random() * albumThumbsList[key].length);
-                    } else {
-                        randomiser = 0;
-                    }
-
-                    // add the albumCover on matching Album objects --> key in here needs to correspond to key in the above iteration
-                    // fortunately promiseStack resolves in the same order as the promises were pushed in the list above
-                    albumsList[key].albumCover = path.join('/img/albums/' + albumsList[key].albumName + '/thumb/' + albumThumbsList[key][randomiser]);
-
-
-                }
-                return albumsList;
-            });
-        })
-        .then((albumsList)=> {
+    let albumsToDisplay = DlFileOperations.returnAlbumsToDisplayWithCover(albumsFolder);
+        albumsToDisplay.then((albumsListWithCover)=> {
             res.render('index', {
-                albums : albumsList,
+                albums : albumsListWithCover,
                 user: req.session.userId
         });
     });
