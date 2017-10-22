@@ -4,8 +4,8 @@ console.log(appRootDir);
 
 const S3FS = require('s3fs');
 const bucketPath = 'kepkukkanto';
-const access_key = 'AKIAJSHN7YDLHZJD4HWA';
-const secret = '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';
+const access_key = process.env.AWS_ACCESS_KEY_ID || require('../secret.json').access_key;
+const secret = process.env.AWS_SECRET_ACCESS_KEY || require('../secret.json').secret;
 let s3Options = {
     region: 'eu-central-1',
     accessKeyId : access_key,
