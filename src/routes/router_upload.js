@@ -23,7 +23,7 @@ router.get('/upload', (req, res, next) => {
 // setting up storage and file naming
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '../public/img/upload')
+        cb(null, '/public/img/upload')
     },
     filename: function (req, file, cb) {
         let extension = file.originalname.split('.')[0];
