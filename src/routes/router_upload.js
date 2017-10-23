@@ -7,6 +7,8 @@ const path = require('path');
 const resizer = require('../resizer.js');
 const fileOperations = require('../aws_upload_fileoperations.js');
 const fs = require('fs');
+const appRootDir = require('app-root-dir').get();
+
 
 
 
@@ -21,7 +23,7 @@ router.get('/upload', (req, res, next) => {
 // setting up storage and file naming
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/img/upload')
+        cb(null, appRootDir + '/public/img/upload')
     },
     filename: function (req, file, cb) {
         let extension = file.originalname.split('.')[0];
@@ -57,8 +59,7 @@ var upload = multer({
 });
 
 
-router.post('/upload', (req,res,next)=> {    console.log('any logs????');
-}, upload.array('image', 100), (req, res, next) => {
+router.post('/upload', upload.array('image', 100), (req, res, next) => {
 
     // MAGIC HAPPENS HERE - check upload folder, count exsiting albums, resize pictures, zip, delete files from upload folder
     fileOperations.resizeZipDelete(req.body.albumName);
