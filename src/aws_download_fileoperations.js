@@ -3,6 +3,10 @@ const fs = require('fs');
 const Album = require('./album.js');
 const moment = require('moment');
 const path = require('path');
+
+let albumsFolder = 'public/img/albums';
+let amazonPath = 'https://s3.eu-central-1.amazonaws.com/kepkukkanto';
+
 const S3FS = require('s3fs');
 const bucketPath = process.env.S3_BUCKET_NAME || 'kepkukkanto';
 const access_key = process.env.AWS_ACCESS_KEY_ID || require('../secret.json').access_key;
@@ -15,7 +19,6 @@ let s3Options = {
 let fsImpl = new S3FS(bucketPath, s3Options);
 
 // remove appRootDir when using AWS
-const albumsFolder = '/public/img/albums/';
 const sharp = require('sharp'); // Sharp resize documentation: http://sharp.dimens.io/en/stable/api-resize/
 const archiver = require('archiver');
 
@@ -43,7 +46,7 @@ function chooseRandomCoverAndReturnAlbumsList(albumThumbsList, albumsList) {
 
             // add the albumCover on matching Album objects --> key in here needs to correspond to key in the above iteration
             // fortunately promiseStack resolves in the same order as the promises were pushed in the list above
-            albumsList[key].albumCover = path.join('/img/albums/' + albumsList[key].albumName + '/thumb/' + albumThumbsList[key][randomiser]);
+            albumsList[key].albumCover = path.join(amazonPath, albumsFolder, albumsList[key].albumName, 'thumb', albumThumbsList[key][randomiser]);
 
 
         }
