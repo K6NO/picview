@@ -5,7 +5,7 @@ const moment = require('moment');
 const path = require('path');
 
 let albumsFolder = 'public/img/albums';
-let amazonPath = 'https://s3.eu-central-1.amazonaws.com/kepkukkanto/kepkukkanto';
+let amazonPath = 'http://s3.eu-central-1.amazonaws.com/kepkukkanto';
 
 const S3FS = require('s3fs');
 const bucketPath = process.env.S3_BUCKET_NAME || 'kepkukkanto';
