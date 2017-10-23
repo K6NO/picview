@@ -207,11 +207,11 @@ function zipImages(images, albumCount, album) {
 function deleteImagesFromUpload () {
     console.log('7');
     return new Promise (function (resolve, reject) {
-        fs.readdir(appRootDir + '/public/img/upload/', (err, files) => {
+        fs.readdir(uploadFolder, (err, files) => {
 
             if(!err) {
                 for (let key in files){
-                    fs.unlink(appRootDir + '/public/img/upload/' + files[key], (err) => {
+                    fs.unlink(uploadFolder + files[key], (err) => {
                         if (err) return new Error('Error when attempting to delete upload folder.')
                     })
                 }
@@ -225,6 +225,7 @@ function deleteImagesFromUpload () {
 
 
 function resizeZipDelete (album){
+    console.log('valami');
     return checkUploadFolder(album)
         .then((album)=> { return countAlbums(album)})
         .then( ([albumCount, album]) => { return createAlbumFolders(albumCount, album)})
