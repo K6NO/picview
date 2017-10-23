@@ -5,7 +5,7 @@ const sizeOf = require('image-size');
 
 let Picture = require('./picture.js');
 let albumsFolder = 'public/img/albums';
-let amazonPath = 'https://s3.eu-central-1.amazonaws.com/kepkukkanto';
+let amazonPath = 'http://s3.eu-central-1.amazonaws.com/kepkukkanto';
 
 const S3FS = require('s3fs');
 const bucketPath = process.env.S3_BUCKET_NAME || 'kepkukkanto';
