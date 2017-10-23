@@ -1,6 +1,5 @@
 const fs = require('fs');
 const appRootDir = require('app-root-dir').get();
-console.log(appRootDir);
 
 const S3FS = require('s3fs');
 const bucketPath = process.env.S3_BUCKET_NAME || 'kepkukkanto';

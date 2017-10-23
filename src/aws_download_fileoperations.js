@@ -1,9 +1,32 @@
-const Promise = require('bluebird');
-const fs = Promise.promisifyAll(require('fs'));
+const fs = require('fs');
+//const appRootDir = require('app-root-dir').get();
 const Album = require('./album.js');
 const moment = require('moment');
 const path = require('path');
-const albumsFolder = 'public/img/albums';
+const S3FS = require('s3fs');
+const bucketPath = process.env.S3_BUCKET_NAME || 'kepkukkanto';
+const access_key = process.env.AWS_ACCESS_KEY_ID || require('../secret.json').access_key;
+const secret = process.env.AWS_SECRET_ACCESS_KEY || require('../secret.json').secret;
+let s3Options = {
+    region: 'eu-central-1',
+    accessKeyId : access_key,
+    secretAccessKey : secret
+};
+let fsImpl = new S3FS(bucketPath, s3Options);
+
+// remove appRootDir when using AWS
+const albumsFolder = '/public/img/albums/';
+const sharp = require('sharp'); // Sharp resize documentation: http://sharp.dimens.io/en/stable/api-resize/
+const archiver = require('archiver');
+
+function readdirPromise (dirpath) {
+    return new Promise(function (resolve, reject) {
+        fsImpl.readdir(dirpath, function (err, files) {
+            if(err) reject(err);
+            resolve(files);
+        })
+    })
+}
 
 function chooseRandomCoverAndReturnAlbumsList(albumThumbsList, albumsList) {
     // iterate the resolved promises (list of thumb files)
@@ -32,7 +55,7 @@ function buildListOfAlbumsAndReadThumbFolders(albums){
     let albumsList = [];
     let promiseStack = [];
 
-    // iterate list list of album folders
+    // iterate list of album folders
     for (let key in albums){
 
         // exclude any files, other shit
@@ -45,7 +68,14 @@ function buildListOfAlbumsAndReadThumbFolders(albums){
             albumsList.push(album);
 
             // async read the thumb subfolder in each album folder, push the promises to a list
-            promiseStack.push(fs.readdirAsync(path.join(albumsFolder, albumName, 'thumb')));
+            promiseStack.push(readdirPromise(path.join(albumsFolder, albumName, 'thumb'))
+                .then(function (promise) {
+                    console.log(promise);
+                    return promise;
+                })
+                .catch(function(err){
+                    return err;
+                }));
         }
     }
     return { albumsList : albumsList,
@@ -54,8 +84,8 @@ function buildListOfAlbumsAndReadThumbFolders(albums){
 }
 
 // async get list of album folders
-function returnAlbumsToDisplayWithCover(albumsFolder){
-    return fs.readdirAsync(albumsFolder)
+function returnAWSAlbumsToDisplayWithCover(albumsFolder){
+    return readdirPromise(albumsFolder)
         .then((albums)=> {
             let albumsList =  buildListOfAlbumsAndReadThumbFolders(albums).albumsList;
             let promiseStack =  buildListOfAlbumsAndReadThumbFolders(albums).promiseStack;
@@ -70,4 +100,4 @@ function returnAlbumsToDisplayWithCover(albumsFolder){
         })
 }
 
-module.exports.returnAlbumsToDisplayWithCover = returnAlbumsToDisplayWithCover;
+module.exports.returnAWSAlbumsToDisplayWithCover = returnAWSAlbumsToDisplayWithCover;

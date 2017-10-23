@@ -7,7 +7,8 @@ const moment = require('moment');
 const path = require('path');
 const mid = require('../auth_middleware.js');
 
-const DlFileOperations = require('../download_fileoperations');
+const AwsFileOperations = require('../aws_download_fileoperations');
+    //require('../download_fileoperations');
 
 const S3FS = require('s3fs');
 const bucketPath = process.env.S3_BUCKET_NAME || 'kepkukkanto';
@@ -31,8 +32,9 @@ router.use('/', require('./router_download.js'));
 
 router.get('/', mid.requiresLogin, (req, res, next) => {
 
-    let albumsToDisplay = DlFileOperations.returnAlbumsToDisplayWithCover(albumsFolder);
+    let albumsToDisplay = AwsFileOperations.returnAWSAlbumsToDisplayWithCover(albumsFolder);
         albumsToDisplay.then((albumsListWithCover)=> {
+            console.log(albumsListWithCover);
             res.render('index', {
                 albums : albumsListWithCover,
                 user: req.session.userId

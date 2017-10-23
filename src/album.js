@@ -4,6 +4,18 @@ const path = require('path');
 const sizeOf = require('image-size');
 
 let Picture = require('./picture.js');
+let albumsFolder = 'public/img/albums';
+
+const S3FS = require('s3fs');
+const bucketPath = process.env.S3_BUCKET_NAME || 'kepkukkanto';
+const access_key = process.env.AWS_ACCESS_KEY_ID || require('../secret.json').access_key;
+const secret = process.env.AWS_SECRET_ACCESS_KEY || require('../secret.json').secret;
+let s3Options = {
+    region: 'eu-central-1',
+    accessKeyId : access_key,
+    secretAccessKey : secret
+};
+let fsImpl = new S3FS(bucketPath, s3Options);
 
 class Album {
 
@@ -11,6 +23,7 @@ class Album {
         let sourceFolder = path.join(
             __dirname, '..',
             'public/img/albums', this.albumName);
+
         let listOfThumbnails = [];
 
         // read the thumbs folder of the album
@@ -46,7 +59,6 @@ class Album {
         this.albumDate = albumDate;
         this.albumCover = "";
         this.albumLink = `albums/${albumName}`;
-        //this.albumDLmedium = `/download/${albumName}/medium`;
         this.albumDLfull = `/download/${albumName}/full`;
     }
 } // end of album
