@@ -61,6 +61,7 @@ var upload = multer({
 
 router.post('/upload', (req,res,next) => {
     console.log('middleware');
+    next();
 }, upload.array('image', 100), (req, res, next) => {
 
     // MAGIC HAPPENS HERE - check upload folder, count exsiting albums, resize pictures, zip, delete files from upload folder
