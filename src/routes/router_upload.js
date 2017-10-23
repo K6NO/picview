@@ -8,7 +8,7 @@ const resizer = require('../resizer.js');
 const fileOperations = require('../aws_upload_fileoperations.js');
 const fs = require('fs');
 const appRootDir = require('app-root-dir').get();
-const uploadFolder = appRootDir + '/public/img/upload/';
+const uploadFolder = './public/img/upload/';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));

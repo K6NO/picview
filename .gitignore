@@ -1,4 +1,5 @@
 .idea/
+.gitignore
 node_modules/
 public/img/albums/1_colombia
 public/img/albums/2_rotterdam
