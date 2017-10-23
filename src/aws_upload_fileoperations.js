@@ -31,8 +31,9 @@ function filterExtensions (images) {
 // FILE OPERATIONS
 
 function checkUploadFolder (album) {
+    console.log('1');
+
     return new Promise(function (resolve, reject) {
-        console.log('1');
         fs.readdir(uploadFolder, (err, files) => {
             if(err) reject(err);
             if(files.length !== 0){
@@ -46,8 +47,8 @@ function checkUploadFolder (album) {
 }
 
 function countAlbums (album) {
+    console.log('2');
     return new Promise(function (resolve, reject) {
-        console.log('2');
         fsImpl.readdir(albumsFolder, (err, files) => {
             if(err) reject(err);
             let albumCount = 0;
