@@ -4,10 +4,7 @@ const multer = require('multer');
 const app = new express();
 const bodyParser = require('body-parser');
 const path = require('path');
-const resizer = require('../resizer.js');
-const fileOperations = require('../aws_upload_fileoperations.js');
-const fs = require('fs');
-const appRootDir = require('app-root-dir').get();
+const awsFileOperations = require('../aws_upload_fileoperations.js');
 const uploadFolder = './public/img/upload/';
 
 app.use(bodyParser.json());
@@ -65,7 +62,7 @@ router.post('/upload', (req,res,next) => {
 }, upload.array('image', 100), (req, res, next) => {
 
     // MAGIC HAPPENS HERE - check upload folder, count exsiting albums, resize pictures, zip, delete files from upload folder
-    fileOperations.resizeZipDelete(req.body.albumName);
+    awsFileOperations.resizeZipDelete(req.body.albumName);
     res.redirect('/');
 });
 

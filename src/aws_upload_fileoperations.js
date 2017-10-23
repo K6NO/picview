@@ -8,7 +8,8 @@ const secret = process.env.AWS_SECRET_ACCESS_KEY || require('../secret.json').se
 let s3Options = {
     region: 'eu-central-1',
     accessKeyId : access_key,
-    secretAccessKey : secret
+    secretAccessKey : secret,
+    ACL: 'public-read'
 };
 let fsImpl = new S3FS(bucketPath, s3Options);
 

@@ -47,7 +47,8 @@ router.get('/albums/:albumId', mid.requiresLogin, (req, res, next) => {
         .then((pictures)=>{
             res.render('album', {
                 singleAlbum : album,
-                pictures : pictures
+                pictures : pictures,
+                user: req.session.userId
             });
         });
 
