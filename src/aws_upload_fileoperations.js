@@ -9,7 +9,6 @@ let s3Options = {
     region: 'eu-central-1',
     accessKeyId : access_key,
     secretAccessKey : secret,
-    ACL: 'public-read'
 };
 let fsImpl = new S3FS(bucketPath, s3Options);
 
