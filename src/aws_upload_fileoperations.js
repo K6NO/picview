@@ -18,6 +18,8 @@ const sizeOf = require('image-size');
 const sharp = require('sharp'); // Sharp resize documentation: http://sharp.dimens.io/en/stable/api-resize/
 const archiver = require('archiver');
 
+console.log(appRootDir);
+
 // HELPER FUNCTION
 function filterExtensions (images) {
     return images.filter(function(image){
