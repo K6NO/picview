@@ -32,6 +32,7 @@ function filterExtensions (images) {
 
 function checkUploadFolder (album) {
     return new Promise(function (resolve, reject) {
+        console.log('1');
         fs.readdir(uploadFolder, (err, files) => {
             if(err) reject(err);
             if(files.length !== 0){
@@ -46,6 +47,7 @@ function checkUploadFolder (album) {
 
 function countAlbums (album) {
     return new Promise(function (resolve, reject) {
+        console.log('2');
         fsImpl.readdir(albumsFolder, (err, files) => {
             if(err) reject(err);
             let albumCount = 0;
@@ -60,6 +62,7 @@ function countAlbums (album) {
 }
 
 function createAlbumFolders(albumCount, album) {
+    console.log('3');
     return new Promise(function(resolve, reject){
         fsImpl.mkdir(`${albumsFolder}${albumCount}_${album}`, (err) => {
             if(err) reject(err);
@@ -73,7 +76,7 @@ function createAlbumFolders(albumCount, album) {
 }
 
 function readUploadFolder(albumCount, album){
-
+    console.log('4');
     return new Promise(function(resolve, reject) {
         fs.readdir(uploadFolder, function (error, images) {
             if (!error) {
@@ -89,6 +92,7 @@ function readUploadFolder(albumCount, album){
 }
 
 function resizeImages(images, albumCount, album){
+    console.log('5');
     return new Promise(function (resolve, reject) {
 
         // check if images is truthy (supported file types)
@@ -151,6 +155,7 @@ function resizeImages(images, albumCount, album){
 }
 
 function zipImages(images, albumCount, album) {
+    console.log('6');
 
     return new Promise(function (resolve, reject) {
         var output = fsImpl.createWriteStream('/public/img/albums/' +
@@ -199,6 +204,7 @@ function zipImages(images, albumCount, album) {
 }
 
 function deleteImagesFromUpload () {
+    console.log('7');
     return new Promise (function (resolve, reject) {
         fs.readdir(appRootDir + '/public/img/upload/', (err, files) => {
 

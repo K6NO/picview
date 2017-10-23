@@ -40,7 +40,6 @@ class Album {
 
         // read the thumbs folder of the album, return a list of Picture objects
         return new Promise(function (resolve, reject) {
-            console.log(albumName);
 
             fsImpl.readdir(path.join(albumsFolder, albumName, 'thumb'), function (err, thumbs) {
                     if(err) reject(err);
@@ -50,7 +49,6 @@ class Album {
         })
             .then(function ([thumbs, albumName]) {
                 // work only with supported file formats
-                console.log(albumName);
                 let filteredThumbs = filterExtensions(thumbs);
                 for (let key in filteredThumbs) {
 

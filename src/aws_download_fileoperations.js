@@ -1,5 +1,4 @@
 const fs = require('fs');
-//const appRootDir = require('app-root-dir').get();
 const Album = require('./album.js');
 const moment = require('moment');
 const path = require('path');
@@ -73,7 +72,6 @@ function buildListOfAlbumsAndReadThumbFolders(albums){
             // async read the thumb subfolder in each album folder, push the promises to a list
             promiseStack.push(readdirPromise(path.join(albumsFolder, albumName, 'thumb'))
                 .then(function (promise) {
-                    console.log(promise);
                     return promise;
                 })
                 .catch(function(err){

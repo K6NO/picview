@@ -34,7 +34,6 @@ router.get('/', mid.requiresLogin, (req, res, next) => {
 
     let albumsToDisplay = AwsFileOperations.returnAWSAlbumsToDisplayWithCover(albumsFolder);
         albumsToDisplay.then((albumsListWithCover)=> {
-            console.log(albumsListWithCover);
             res.render('index', {
                 albums : albumsListWithCover,
                 user: req.session.userId
