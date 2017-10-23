@@ -74,7 +74,7 @@ class Album {
         this.albumDate = albumDate;
         this.albumCover = "";
         this.albumLink = `albums/${albumName}`;
-        this.albumDLfull = `/download/${albumName}full`;
+        this.albumDLfull = `/download/${albumName}/full`;
     }
 } // end of album
 module.exports = Album;
