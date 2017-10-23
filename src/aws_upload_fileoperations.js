@@ -33,11 +33,10 @@ function filterExtensions (images) {
 // FILE OPERATIONS
 
 function checkUploadFolder (album) {
-    console.log('1');
-
     return new Promise(function (resolve, reject) {
         fs.readdir(uploadFolder, (err, files) => {
             if(err) reject(err);
+            console.log(files);
             if(files.length !== 0){
                 resolve(album);
             } else {
@@ -54,6 +53,7 @@ function countAlbums (album) {
         fsImpl.readdir(albumsFolder, (err, files) => {
             if(err) reject(err);
             let albumCount = 0;
+            console.log(files);
             for(let entry in files){
                 if(files[entry].indexOf('.') === -1){
                     albumCount ++;
@@ -86,6 +86,8 @@ function readUploadFolder(albumCount, album){
 
                 // filter out unsupported file types
                 let filteredImages = filterExtensions(images);
+                console.log(filteredImages);
+
                 resolve([filteredImages, albumCount, album]);
             } else {
                 reject(new Error("Error when reading image upload folder on Heroku: " + error));
